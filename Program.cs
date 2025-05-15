@@ -1,40 +1,40 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
+using RaceStrategyApp.Models;
+using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace RaceStrategyApp {
+    public class Program {
+        public static void Main(string[] args) {
+            var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+            builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            builder.Services.AddControllers();
+            builder.Services.AddOpenApi();
+            builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+                .AddNegotiate();
+            builder.Services.AddAuthorization(options => options.FallbackPolicy = options.DefaultPolicy);
+            builder.Services.AddDbContext<RaceStrategyContext>();
 
-builder.Services.AddControllersWithViews();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+            var app = builder.Build();
 
-builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-   .AddNegotiate();
+            if (app.Environment.IsDevelopment()) {
+                app.MapOpenApi();
+            }
 
-builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
-});
+            // Fixed middleware order:
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-var app = builder.Build();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
 }
-
-app.UseRouting();
-app.UseAuthorization();
-app.UseAuthentication();
-
-app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapControllers(); // API routes (from WebAPI)
-
-app.UseHttpsRedirection();
-
-app.Run();

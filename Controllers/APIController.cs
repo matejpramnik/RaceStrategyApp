@@ -2,9 +2,12 @@
 using RaceStrategyApp.Models;
 
 namespace RaceStrategyApp.Controllers {
-    public class BaseController : Controller {
+
+    [ApiController]
+    [Route("api/[controller]")]
+    public class APIController : ControllerBase {
         protected RaceStrategyContext Ctx { get; set; }
-        public BaseController() {
+        public APIController() {
             Ctx = new RaceStrategyContext();
         }
     }
