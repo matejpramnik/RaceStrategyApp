@@ -1,0 +1,59 @@
+﻿@model Race
+@{
+	ViewData["Title"] = "Race";
+}
+
+
+<form asp-action="NewRace" method="post">
+    <div>
+        <label asp-for="Id"></label>
+        <input asp-for="Id" />
+    </div>
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="NumberOfLaps"></label>
+        <input asp-for="NumberOfLaps" />
+    </div>
+    <div>
+        <label asp-for="MandatoryStops"></label>
+        <input asp-for="MandatoryStops" />
+    </div>
+    <div>
+        <label asp-for="Refueling"></label>
+        <input asp-for="Refueling" />
+    </div>
+    <div>
+        <label asp-for="Position"></label>
+        <input asp-for="Position" />
+    </div>
+    <div>
+        <label asp-for="AmountOfOpponents"></label>
+        <input asp-for="AmountOfOpponents" />
+    </div>
+    <div>
+        <label>Available Tyres</label>
+        <select asp-for="SelectedTyres"
+                asp-items="@(ViewBag.TyreOptions)"
+                class="form-control select2"
+                multiple="multiple">
+        </select>
+    </div>
+    <div>
+        <label asp-for="TrackWeather"></label>
+        <input asp-for="TrackWeather" />
+    </div>
+
+    
+    
+    
+    <input type="hidden" asp-for="Damage" />
+    <input type="hidden" asp-for="TerminalDamage" />
+    <input type="hidden" asp-for="TrackState" />
+    <input type="hidden" asp-for="RaceSeriesID" />
+    <input type="hidden" asp-for="LapCount" />
+    
+    <button type="submit" onclick="">Uložiť</button>
+</form>

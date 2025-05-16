@@ -1,0 +1,45 @@
+﻿@model Race
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <div class="text-center">
+        <table class="table">
+            <thead>
+            <th>Id</th>
+            <th>Name</th>
+            <th>NumberOfLaps</th>
+            <th>LapCount</th>
+            <th>MandatoryStops</th>
+            <th>Refueling</th>
+            <th>Position</th>
+            <th>AmountOfOpponents</th>
+            <th>AvailableTyres</th>
+            <th>TrackState</th>
+            <th>Damage</th>
+            <th>TerminalDamage</th>
+            <th>TrackWeather</th>
+            
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>@Model.Id</td>
+                    <td>@Model.Name</td>
+                    <td>@Model.NumberOfLaps</td>
+                    <td>@Model.LapCount</td>
+                    <td>@Model.MandatoryStops</td>
+                    <td>@Model.Refueling</td>
+                    <td>@Model.Position</td>
+                    <td>@Model.AmountOfOpponents</td>
+                    <td>@Model.AvailableTyres</td>
+                    <td>@Model.TrackState</td>
+                    <td>@Model.Damage</td>
+                    <td>@Model.TerminalDamage</td>
+                    <td>@Model.TrackWeather</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+}

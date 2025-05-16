@@ -10,12 +10,13 @@
         public int AmountOfOpponents { get; set; }
 
         private ICollection<Tyre> _Tyres;
-        public ICollection<Tyre> AvailableTyres { get; set; }
+        public List<tyreCompound> SelectedTyres { get; set; }
+        public virtual ICollection<Tyre> AvailableTyres { get; set; }
         public trackState TrackState { get; set; }
         public bool Damage { get; set; }
         public bool TerminalDamage { get; set; }
         public weather TrackWeather { get; set; }
-        public int RaceSeriesID { get; set; } // cudzi kluc
+        public virtual int RaceSeriesID { get; set; } // cudzi kluc
 
     }
 }

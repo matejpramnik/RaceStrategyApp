@@ -5,7 +5,7 @@
         public int ParticipantCount { get; set; }
 
         private ICollection<Race> _Races;
-        public ICollection<Race> Races {
+        public virtual ICollection<Race> Races {
             get { return _Races ?? (_Races = new HashSet<Race>()); }
             set { _Races = value; }
         }
