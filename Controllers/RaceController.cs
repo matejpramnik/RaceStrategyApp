@@ -4,25 +4,21 @@ using RaceStrategyApp.Models;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
+
+        public virtual IActionResult All() {
+            List<Race> races = Ctx.Races.ToList();
+            return View(races);
+        }
+
         public IActionResult NewRace() {
             var race = new Race {
                 Id = 1,
                 Damage = false,
                 TerminalDamage = false,
                 TrackState = trackState.green,
-                RaceSeriesID = 1,
-                LapCount = 0,
-                SelectedTyres = new List<tyreCompound>()
+                RaceSeriesId = 1,
+                LapCount = 0
             };
-
-            // Populate dropdown options for tyres
-            ViewBag.TyreOptions = Enum.GetValues(typeof(tyreCompound))
-                .Cast<tyreCompound>()
-                .Select(t => new SelectListItem {
-                    Text = t.ToString(),
-                    Value = t.ToString()
-                })
-                .ToList();
             return View(race);
         }
 
@@ -31,6 +27,7 @@ namespace RaceStrategyApp.Controllers {
             race.AvailableTyres = race.SelectedTyres
                 .Select(t => new Tyre { Compound = t })
                 .ToList();
+
             Ctx.Races.Add(race);
             Ctx.SaveChanges();
 

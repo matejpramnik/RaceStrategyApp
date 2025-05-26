@@ -12,6 +12,7 @@ namespace RaceStrategyApp.Models {
 
         protected override void OnModelCreating(ModelBuilder mb) {
             mb.Entity<Race>().Property(p => p.Name).IsRequired().HasMaxLength(100);
+ 
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) {

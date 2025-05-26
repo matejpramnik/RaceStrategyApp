@@ -33,17 +33,31 @@
         <label asp-for="AmountOfOpponents"></label>
         <input asp-for="AmountOfOpponents" />
     </div>
-    <div>
-        <label>Available Tyres</label>
-        <select asp-for="SelectedTyres"
-                asp-items="@(ViewBag.TyreOptions)"
-                class="form-control select2"
-                multiple="multiple">
-        </select>
+
+    <div class="tyre-selection">
+        <h4>Select Tyres (Add Multiple)</h4>
+        <div id="tyreContainer">
+            @for (var i = 0; i < Model.SelectedTyres.Count; i++) {
+                <div class="tyre-entry mb-2">
+                    <select asp-for="SelectedTyres[i]"
+                            asp-items="Html.GetEnumSelectList<tyreCompound>()"
+                            class="form-control">
+                        <option value="">-- Select Compound --</option>
+                    </select>
+                    <button type="button" class="btn btn-danger btn-sm remove-tyre">Remove</button>
+                </div>
+            }
+        </div>
+        <button type="button" id="addTyre" class="btn btn-secondary mt-2">Add Another Tyre</button>
     </div>
+
     <div>
         <label asp-for="TrackWeather"></label>
         <input asp-for="TrackWeather" />
+    </div>
+    <div>
+        <label asp-for="RaceSeriesId"></label>
+        <input asp-for="RaceSeriesId" />
     </div>
 
     
@@ -52,8 +66,39 @@
     <input type="hidden" asp-for="Damage" />
     <input type="hidden" asp-for="TerminalDamage" />
     <input type="hidden" asp-for="TrackState" />
-    <input type="hidden" asp-for="RaceSeriesID" />
     <input type="hidden" asp-for="LapCount" />
     
     <button type="submit" onclick="">Uložiť</button>
 </form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('tyreContainer');
+            const addButton = document.getElementById('addTyre');
+            let index = @Model.SelectedTyres.Count;
+
+            addButton.addEventListener('click', function () {
+                const template = `
+                    <div class="tyre-entry mb-2">
+                        <select name="SelectedTyres[${index}]"
+                                class="form-control">
+        @foreach (var value in Enum.GetValues(typeof(tyreCompound))) {
+                                    <option value="@value">@value</option>
+        }
+                        </select>
+                        <button type="button" class="btn btn-danger btn-sm remove-tyre">Remove</button>
+                    </div>`;
+
+                container.insertAdjacentHTML('beforeend', template);
+                index++;
+            });
+
+            container.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-tyre')) {
+                    e.target.closest('.tyre-entry').remove();
+                }
+            });
+        });
+    </script>
+}

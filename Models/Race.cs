@@ -1,4 +1,7 @@
-﻿namespace RaceStrategyApp.Models {
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RaceStrategyApp.Models {
     public class Race {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,13 +13,15 @@
         public int AmountOfOpponents { get; set; }
 
         private ICollection<Tyre> _Tyres;
-        public List<tyreCompound> SelectedTyres { get; set; }
-        public virtual ICollection<Tyre> AvailableTyres { get; set; }
+
+        [BindProperty]
+        public List<tyreCompound> SelectedTyres { get; set; } = new();
+        public virtual ICollection<Tyre> AvailableTyres { get; set; } = new List<Tyre>();
         public trackState TrackState { get; set; }
         public bool Damage { get; set; }
         public bool TerminalDamage { get; set; }
         public weather TrackWeather { get; set; }
-        public virtual int RaceSeriesID { get; set; } // cudzi kluc
+        public virtual int RaceSeriesId { get; set; } // cudzi kluc
 
     }
 }
