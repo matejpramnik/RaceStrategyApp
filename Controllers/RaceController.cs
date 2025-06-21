@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaceStrategyApp.Models;
+using System.Diagnostics;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -11,27 +12,27 @@ namespace RaceStrategyApp.Controllers {
         }
 
         public IActionResult NewRace() {
-            var race = new Race {
-                Id = 1,
+            var race = new Race() { 
+                TrackState = trackState.green,
                 Damage = false,
                 TerminalDamage = false,
-                TrackState = trackState.green,
-                RaceSeriesId = 1,
-                LapCount = 0
+                LapCount = 0,
+                TrackWeather = weather.dry   //VYRIESIT WEATHER
             };
+            race.SelectedTyres.Add(tyreCompound.generic);
             return View(race);
         }
 
         [HttpPost]
         public IActionResult NewRace(Race race) {
             race.AvailableTyres = race.SelectedTyres
+                .Where(t => t != null)
                 .Select(t => new Tyre { Compound = t })
                 .ToList();
 
             Ctx.Races.Add(race);
             Ctx.SaveChanges();
-
-            return RedirectToAction("Race", "Race", new {id = race.Id});
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         public IActionResult Race() {

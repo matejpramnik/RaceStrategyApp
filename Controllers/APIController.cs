@@ -10,5 +10,17 @@ namespace RaceStrategyApp.Controllers {
         public APIController() {
             Ctx = new RaceStrategyContext();
         }
+
+        [HttpGet("dropdown")]
+        public IActionResult GetTyreDropdown() {
+            var options = Enum.GetValues(typeof(tyreCompound))
+                .Cast<tyreCompound>()
+                .Select(t => new {
+                    Value = t.ToString(),
+                    Text = t.ToString()
+                });
+
+            return Ok(options);
+        }
     }
 }

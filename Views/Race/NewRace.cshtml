@@ -33,33 +33,54 @@
         <label asp-for="AmountOfOpponents"></label>
         <input asp-for="AmountOfOpponents" />
     </div>
-
-    <div class="tyre-selection">
-        <h4>Select Tyres (Add Multiple)</h4>
-        <div id="tyreContainer">
-            @for (var i = 0; i < Model.SelectedTyres.Count; i++) {
-                <div class="tyre-entry mb-2">
-                    <select asp-for="SelectedTyres[i]"
-                            asp-items="Html.GetEnumSelectList<tyreCompound>()"
-                            class="form-control">
-                        <option value="">-- Select Compound --</option>
-                    </select>
-                    <button type="button" class="btn btn-danger btn-sm remove-tyre">Remove</button>
-                </div>
-            }
-        </div>
-        <button type="button" id="addTyre" class="btn btn-secondary mt-2">Add Another Tyre</button>
-    </div>
-
     <div>
         <label asp-for="TrackWeather"></label>
         <input asp-for="TrackWeather" />
     </div>
+
+
+    <h4>Tyre Selection</h4>
+    <div id="tyresContainer">
+        @for (int i = 0; i < Model.SelectedTyres.Count; i++) {
+            <div class="form-group row mb-3" data-index="@i">
+                <div class="col-10">
+                    <label class="form-label">Tyre #@(i + 1)</label>
+                    <select asp-for="SelectedTyres[i]"
+                            class="form-select tyre-dropdown">
+                        <option value="">-- Select Compound --</option>
+                        @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
+                            <option value="@compound"
+                                    selected="@(Model.SelectedTyres[i] == (tyreCompound)compound)">
+                                @compound
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-2 align-self-end">
+                    @if (i > 0) {
+                        <button type="button"
+                                class="btn btn-danger remove-tyre"
+                                data-index="@i">
+                            Remove
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <button type="button" id="addTyre" class="btn btn-secondary">
+            Add Another Tyre
+        </button>
+    </div>
+
     <div>
         <label asp-for="RaceSeriesId"></label>
         <input asp-for="RaceSeriesId" />
     </div>
 
+    <button type="submit" class="btn btn-primary">Uložiť</button>
     
     
     
@@ -68,37 +89,42 @@
     <input type="hidden" asp-for="TrackState" />
     <input type="hidden" asp-for="LapCount" />
     
-    <button type="submit" onclick="">Uložiť</button>
 </form>
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const container = document.getElementById('tyreContainer');
-            const addButton = document.getElementById('addTyre');
-            let index = @Model.SelectedTyres.Count;
-
-            addButton.addEventListener('click', function () {
-                const template = `
-                    <div class="tyre-entry mb-2">
-                        <select name="SelectedTyres[${index}]"
-                                class="form-control">
-        @foreach (var value in Enum.GetValues(typeof(tyreCompound))) {
-                                    <option value="@value">@value</option>
+        $(function() {
+            // Add new tyre dropdown
+            $('#addTyre').click(function() {
+                const index = $('.tyre-dropdown').length;
+                const dropdownHtml = `
+                    <div class="form-group row mb-3" data-index="${index}">
+                        <div class="col-10">
+                            <label class="form-label">Tyre #${index + 1}</label>
+                            <select name="SelectedTyres[${index}]"
+                                    class="form-select tyre-dropdown">
+                                <option value="">-- Select Compound --</option>
+        @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
+                                        <option value="@compound">@compound</option>
         }
-                        </select>
-                        <button type="button" class="btn btn-danger btn-sm remove-tyre">Remove</button>
+                            </select>
+                        </div>
+                        <div class="col-2 align-self-end">
+                            <button type="button"
+                                    class="btn btn-danger remove-tyre"
+                                    data-index="${index}">Remove</button>
+                        </div>
                     </div>`;
 
-                container.insertAdjacentHTML('beforeend', template);
-                index++;
+                $('#tyresContainer').append(dropdownHtml);
             });
 
-            container.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-tyre')) {
-                    e.target.closest('.tyre-entry').remove();
-                }
+            // Remove tyre dropdown
+            $(document).on('click', '.remove-tyre', function() {
+                const index = $(this).data('index');
+                $(`[data-index="${index}"]`).remove();
             });
         });
     </script>
 }
+

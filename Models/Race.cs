@@ -11,12 +11,8 @@ namespace RaceStrategyApp.Models {
         public bool Refueling { get; set; }
         public int Position { get; set; }
         public int AmountOfOpponents { get; set; }
-
-        private ICollection<Tyre> _Tyres;
-
-        [BindProperty]
+        public virtual List<Tyre> AvailableTyres { get; set; }
         public List<tyreCompound> SelectedTyres { get; set; } = new();
-        public virtual ICollection<Tyre> AvailableTyres { get; set; } = new List<Tyre>();
         public trackState TrackState { get; set; }
         public bool Damage { get; set; }
         public bool TerminalDamage { get; set; }
