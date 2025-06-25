@@ -80,12 +80,12 @@
         <input asp-for="RaceSeriesId" />
     </div>
 
-
+    
     <input type="hidden" asp-for="Damage" />
     <input type="hidden" asp-for="TerminalDamage" />
     <input type="hidden" asp-for="TrackState" />
     <input type="hidden" asp-for="LapCount" />
-
+    
     <button type="submit" class="btn btn-primary">Uložiť</button>
     
 </form>
@@ -104,7 +104,7 @@
                                     class="form-select tyre-dropdown">
                                 <option value="">-- Select Compound --</option>
         @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
-                                            <option value="@compound">@compound</option>
+                                        <option value="@compound">@compound</option>
         }
                             </select>
                         </div>

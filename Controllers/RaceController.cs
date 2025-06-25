@@ -31,10 +31,10 @@ namespace RaceStrategyApp.Controllers {
                 .ToList();
 
             if (ModelState.IsValid) {
-                Ctx.Races.Add(race);
-                Ctx.SaveChanges();
-                return RedirectToAction("Race", "Race", new { id = race.Id });
-            }
+            Ctx.Races.Add(race);
+            Ctx.SaveChanges();
+            return RedirectToAction("Race", "Race", new { id = race.Id });
+        }
             return View(race);
         }
 
