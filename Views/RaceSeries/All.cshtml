@@ -1,0 +1,39 @@
+﻿@model List<RaceStrategyApp.Models.RaceSeries>
+@{
+    ViewData["Title"] = "Šampionáty";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Šampionáty</h1>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Meno</th>
+                <th>ParticipantCount</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @if (Model != null && Model.Any()) {
+                @foreach (var raceSeries in Model) {
+                    <tr>
+                        <td>@raceSeries.Id</td>
+                        <td>@raceSeries.Name</td>
+                        <td>@raceSeries.ParticipantCount</td>
+                        <td><a asp-controller="Race" asp-action="All" asp-route-id="@raceSeries.Id">Zobraziť preteky</a></td>
+                    </tr>
+                }
+            }
+            else {
+                <tr>
+                    <td colspan="5">No race series found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

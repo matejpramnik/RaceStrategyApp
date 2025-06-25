@@ -1,0 +1,6 @@
+@RaceStrategyApp_HostAddress = http://localhost:5172
+
+GET {{RaceStrategyApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

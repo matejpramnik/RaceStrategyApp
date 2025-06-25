@@ -1,0 +1,58 @@
+﻿@model List<RaceStrategyApp.Models.Race>
+@{
+    ViewData["Title"] = "Preteky";
+}
+
+
+<div class="text-center">
+    <h1 class="display-2">Preteky</h1>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>NumberOfLaps</th>
+                <th>LapCount</th>
+                <th>MandatoryStops</th>
+                <th>Refueling</th>
+                <th>Position</th>
+                <th>AmountOfOpponents</th>
+                <th>AvailableTyres</th>
+                <th>TrackState</th>
+                <th>Damage</th>
+                <th>TerminalDamage</th>
+                <th>TrackWeather</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @if (Model != null && Model.Any()) {
+                @foreach (var race in Model) {
+                    <tr>
+                        <td>@race.Id</td>
+                        <td>@race.Name</td>
+                        <td>@race.NumberOfLaps</td>
+                        <td>@race.LapCount</td>
+                        <td>@race.MandatoryStops</td>
+                        <td>@race.Refueling</td>
+                        <td>@race.Position</td>
+                        <td>@race.AmountOfOpponents</td>
+                        <td>@race.AvailableTyres</td>
+                        <td>@race.TrackState</td>
+                        <td>@race.Damage</td>
+                        <td>@race.TerminalDamage</td>
+                        <td>@race.TrackWeather</td>
+                    </tr>
+                }
+            }
+            else {
+                <tr>
+                    <td colspan="5">No race found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,24 @@
+﻿@model RaceSeries
+@{
+	ViewData["Title"] = "Race Series";
+}
+
+
+<form asp-action="NewRaceSeries" method="post">
+    <div>
+        <label asp-for="Id"></label>
+        <input asp-for="Id" />
+    </div>
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="ParticipantCount"></label>
+        <input asp-for="ParticipantCount" />
+    </div>
+
+    <input type="hidden" asp-for="Races" />
+    
+    <button type="submit" onclick="">Uložiť</button>
+</form>
