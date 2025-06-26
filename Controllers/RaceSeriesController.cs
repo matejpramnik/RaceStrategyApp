@@ -28,8 +28,11 @@ namespace RaceStrategyApp.Controllers {
             return View(raceSeries);
         }
 
-        public IActionResult RaceSeries() {
-            return View();
+        public IActionResult RaceSeries(int? id) {
+            if (id == null) return NotFound();
+            var raceSeries = Ctx.RaceSeries.FirstOrDefault(rs => rs.Id == id);
+            if (raceSeries == null) return NotFound();
+            return View(raceSeries);
         }
     }
 }

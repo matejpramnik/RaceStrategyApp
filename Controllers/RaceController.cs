@@ -20,6 +20,13 @@ namespace RaceStrategyApp.Controllers {
                 TrackWeather = weather.dry   //VYRIESIT WEATHER
             };
             race.SelectedTyres.Add(tyreCompound.generic);
+
+            var raceSeriesList = Ctx.RaceSeries
+                .Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
+                .ToList();
+
+            ViewBag.RaceSeriesList = raceSeriesList;
+
             return View(race);
         }
 

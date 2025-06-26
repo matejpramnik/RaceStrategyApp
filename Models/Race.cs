@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RaceStrategyApp.Models {
     public class Race {
-        public int Id { get; set; }
+        private static int globalRaceId;
+        public int Id { get; set; } = Interlocked.Increment(ref globalRaceId);
         public string Name { get; set; }
         public int NumberOfLaps { get; set; }
         public int LapCount { get; set; }

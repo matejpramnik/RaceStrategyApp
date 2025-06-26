@@ -1,6 +1,7 @@
 ﻿namespace RaceStrategyApp.Models {
     public class RaceSeries {
-        public int Id { get; set; }
+        private static int globalRSId;
+        public int Id { get; set; } = Interlocked.Increment(ref globalRSId);
         public string Name { get; set; }
         public int ParticipantCount { get; set; }
 

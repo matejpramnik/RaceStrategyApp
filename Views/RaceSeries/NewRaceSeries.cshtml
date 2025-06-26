@@ -6,10 +6,6 @@
 
 <form asp-action="NewRaceSeries" method="post">
     <div>
-        <label asp-for="Id"></label>
-        <input asp-for="Id" />
-    </div>
-    <div>
         <label asp-for="Name"></label>
         <input asp-for="Name" />
     </div>
@@ -19,6 +15,7 @@
     </div>
 
     <input type="hidden" asp-for="Races" />
+    <input type="hidden" asp-for="Id" />
     
     <button type="submit" onclick="">Uložiť</button>
 </form>

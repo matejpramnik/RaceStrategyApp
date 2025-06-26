@@ -1,40 +1,37 @@
 ﻿@model Race
 @{
-	ViewData["Title"] = "Race";
+    ViewData["Title"] = "Race";
 }
 
 
 <form asp-action="NewRace" method="post">
+    
     <div>
-        <label asp-for="Id"></label>
-        <input asp-for="Id" />
-    </div>
-    <div>
-        <label asp-for="Name"></label>
+        <label asp-for="Name">Názov</label>
         <input asp-for="Name" />
     </div>
     <div>
-        <label asp-for="NumberOfLaps"></label>
+        <label asp-for="NumberOfLaps">Počet kôl</label>
         <input asp-for="NumberOfLaps" />
     </div>
     <div>
-        <label asp-for="MandatoryStops"></label>
+        <label asp-for="MandatoryStops">Počet povinných zastávok</label>
         <input asp-for="MandatoryStops" />
     </div>
     <div>
-        <label asp-for="Refueling"></label>
+        <label asp-for="Refueling">Tankovanie</label>
         <input asp-for="Refueling" />
     </div>
     <div>
-        <label asp-for="Position"></label>
+        <label asp-for="Position">Pozícia</label>
         <input asp-for="Position" />
     </div>
     <div>
-        <label asp-for="AmountOfOpponents"></label>
+        <label asp-for="AmountOfOpponents">Počet protivníkov</label>
         <input asp-for="AmountOfOpponents" />
     </div>
     <div>
-        <label asp-for="TrackWeather"></label>
+        <label asp-for="TrackWeather">Počasie</label>
         <input asp-for="TrackWeather" />
     </div>
 
@@ -46,11 +43,11 @@
                 <div class="col-10">
                     <label class="form-label">Tyre #@(i + 1)</label>
                     <select asp-for="SelectedTyres[i]"
-                            class="form-select tyre-dropdown">
+                    class="form-select tyre-dropdown">
                         <option value="">-- Select Compound --</option>
                         @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
                             <option value="@compound"
-                                    selected="@(Model.SelectedTyres[i] == (tyreCompound)compound)">
+                            selected="@(Model.SelectedTyres[i] == (tyreCompound)compound)">
                                 @compound
                             </option>
                         }
@@ -59,8 +56,8 @@
                 <div class="col-2 align-self-end">
                     @if (i > 0) {
                         <button type="button"
-                                class="btn btn-danger remove-tyre"
-                                data-index="@i">
+                        class="btn btn-danger remove-tyre"
+                        data-index="@i">
                             Remove
                         </button>
                     }
@@ -76,11 +73,15 @@
     </div>
 
     <div>
-        <label asp-for="RaceSeriesId"></label>
-        <input asp-for="RaceSeriesId" />
+        <label asp-for="RaceSeriesId">Šampionát</label>
+        @Html.DropDownListFor(
+            model => model.RaceSeriesId,
+            (IEnumerable<SelectListItem>)ViewBag.RaceSeriesList, "-- Select Series --",
+            new { @class = "form-control" })
     </div>
 
-    
+
+    <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="Damage" />
     <input type="hidden" asp-for="TerminalDamage" />
     <input type="hidden" asp-for="TrackState" />
