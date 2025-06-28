@@ -34,7 +34,7 @@
         <label asp-for="TrackWeather">Počasie</label>
         @Html.DropDownListFor(
                  model => model.TrackWeather,
-                 (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList, "-- Select Weather --",
+                 (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList, "-- Zvoliť počasie --",
                  new { @class = "form-control" })
     </div>
 
@@ -48,7 +48,7 @@
                     <label class="form-label">Tyre #@(i + 1)</label>
                     <select asp-for="SelectedTyres[i]"
                     class="form-select tyre-dropdown">
-                        <option value="">-- Select Compound --</option>
+                        <option value="">-- Zvoliť zmes pneumatík --</option>
                         @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
                             <option value="@compound"
                             selected="@(Model.SelectedTyres[i] == (tyreCompound)compound)">
@@ -80,7 +80,7 @@
         <label asp-for="RaceSeriesId">Šampionát</label>
         @Html.DropDownListFor(
             model => model.RaceSeriesId,
-            (IEnumerable<SelectListItem>)ViewBag.RaceSeriesList, "-- Select Series --",
+            (IEnumerable<SelectListItem>)ViewBag.RaceSeriesList, "-- Zvoliť šampionát --",
             new { @class = "form-control" })
     </div>
 
@@ -98,7 +98,7 @@
 @section Scripts {
     <script>
         $(function() {
-            // Add new tyre dropdown
+            // PRIDAŤ SADU
             $('#addTyre').click(function() {
                 const index = $('.tyre-dropdown').length;
                 const dropdownHtml = `
@@ -107,7 +107,7 @@
                             <label class="form-label">Tyre #${index + 1}</label>
                             <select name="SelectedTyres[${index}]"
                                     class="form-select tyre-dropdown">
-                                <option value="">-- Select Compound --</option>
+                                <option value="">-- Zvoliť zmes pneumatík --</option>
         @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
                                         <option value="@compound">@compound</option>
         }
@@ -123,7 +123,7 @@
                 $('#tyresContainer').append(dropdownHtml);
             });
 
-            // Remove tyre dropdown
+            // ODSTRÁNIŤ SADU
             $(document).on('click', '.remove-tyre', function() {
                 const index = $(this).data('index');
                 $(`[data-index="${index}"]`).remove();

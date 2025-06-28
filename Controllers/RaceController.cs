@@ -14,7 +14,7 @@ namespace RaceStrategyApp.Controllers {
         }
 
         public IActionResult NewRace() {
-            var race = new Race() { 
+            var race = new Race() {
                 TrackState = trackState.green,
                 Damage = false,
                 TerminalDamage = false,
@@ -43,18 +43,28 @@ namespace RaceStrategyApp.Controllers {
                 .ToList();
 
             if (ModelState.IsValid) {
-            Ctx.Races.Add(race);
-            Ctx.SaveChanges();
-            return RedirectToAction("Race", "Race", new { id = race.Id });
-        }
+                Ctx.Races.Add(race);
+                Ctx.SaveChanges();
+                return RedirectToAction("Race", "Race", new { id = race.Id });
+            }
             return View(race);
         }
 
         public IActionResult Race(int? id) {
+            ViewData["RaceStarted"] = false;
             if (id == null) return NotFound();
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
             return View(race);
+        }
+
+        [HttpPost]
+        public IActionResult Race(int id) {
+            ViewData["RaceStarted"] = true;
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+            return View(race);
+
         }
     }
 }
