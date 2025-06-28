@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaceStrategyApp.Models;
 using System.Diagnostics;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -17,15 +19,18 @@ namespace RaceStrategyApp.Controllers {
                 Damage = false,
                 TerminalDamage = false,
                 LapCount = 0,
-                TrackWeather = weather.dry   //VYRIESIT WEATHER
             };
             race.SelectedTyres.Add(tyreCompound.generic);
 
             var raceSeriesList = Ctx.RaceSeries
                 .Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
                 .ToList();
-
             ViewBag.RaceSeriesList = raceSeriesList;
+
+            ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
+                .Cast<weather>()
+                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                .ToList();
 
             return View(race);
         }

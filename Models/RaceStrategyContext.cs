@@ -9,6 +9,7 @@ namespace RaceStrategyApp.Models {
 
         public DbSet<Race> Races { get; set; }
         public DbSet<RaceSeries> RaceSeries { get; set; }
+        public DbSet<RaceProgress> RaceProgresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb) {
             mb.Entity<Race>().Property(p => p.Name).IsRequired().HasMaxLength(100);

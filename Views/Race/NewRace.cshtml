@@ -32,8 +32,12 @@
     </div>
     <div>
         <label asp-for="TrackWeather">Počasie</label>
-        <input asp-for="TrackWeather" />
+        @Html.DropDownListFor(
+                 model => model.TrackWeather,
+                 (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList, "-- Select Weather --",
+                 new { @class = "form-control" })
     </div>
+
 
 
     <h4>Tyre Selection</h4>
