@@ -1,7 +1,11 @@
-﻿namespace RaceStrategyApp.Models {
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RaceStrategyApp.Models {
     public class RaceSeries {
-        private static int globalRSId;
-        public int Id { get; set; } = Interlocked.Increment(ref globalRSId);
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string Name { get; set; }
         public int ParticipantCount { get; set; }
 

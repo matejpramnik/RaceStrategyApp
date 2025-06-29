@@ -22,7 +22,7 @@
             <th>Damage</th>
             <th>TerminalDamage</th>
             <th>TrackWeather</th>
-            
+
         </thead>
 
         <tbody>
@@ -41,14 +41,17 @@
                 <td>@Model.TerminalDamage</td>
                 <td>@Model.TrackWeather</td>
             </tr>
-                
+
         </tbody>
     </table>
 </div>
 
-<form method="post">
-    <button type="submit" name="startRace" value="true">Začať preteky</button>
-</form>
+@if (!raceStarted) {
+    <form method="post">
+        <button type="submit" name="startRace" value="true">Začať preteky</button>
+    </form>
+}
+
 
 @if (raceStarted) {
     <div>

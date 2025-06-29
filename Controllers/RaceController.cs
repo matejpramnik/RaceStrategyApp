@@ -45,6 +45,7 @@ namespace RaceStrategyApp.Controllers {
             if (ModelState.IsValid) {
                 Ctx.Races.Add(race);
                 Ctx.SaveChanges();
+                
                 return RedirectToAction("Race", "Race", new { id = race.Id });
             }
             return View(race);
@@ -52,6 +53,13 @@ namespace RaceStrategyApp.Controllers {
 
         public IActionResult Race(int? id) {
             ViewData["RaceStarted"] = false;
+
+            if (Ctx.RaceProgresses.Any()) {
+                if (Ctx.RaceProgresses.Any(rp => rp.RaceId == id) == true) {
+                    ViewData["RaceStarted"] = true;
+                }
+            }
+
             if (id == null) return NotFound();
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
@@ -63,6 +71,14 @@ namespace RaceStrategyApp.Controllers {
             ViewData["RaceStarted"] = true;
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
+
+            RaceProgress newRace = new RaceProgress() {
+                RaceId = id
+            };
+            newRace.RaceSnapshots.Add(race);
+            Ctx.RaceProgresses.Add(newRace);
+            Ctx.SaveChanges();
+
             return View(race);
 
         }
