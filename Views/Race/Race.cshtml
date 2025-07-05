@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Preteky";
     var raceStarted = ViewData["RaceStarted"] as bool? ?? false;
+    var possibleLapCount = ViewData["LapCount++?"] as bool? ?? true;
 }
 
 
@@ -57,5 +58,21 @@
     <div>
         <a>Preteky začaté</a>
     </div>
+
+    <br>
+    <br>
+
+    <form method="post" asp-controller="Race" asp-action="IncrementLapCount">
+        <div>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label asp-for="LapCount">Aktuálne kolo: </label>
+            <a>@Model.LapCount</a>
+
+            @if (possibleLapCount) {
+                <button type="submit" name="increase">+</button>
+            }
+            
+        </div>
+    </form>
 }
 

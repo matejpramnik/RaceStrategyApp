@@ -4,6 +4,8 @@ using RaceStrategyApp.Models;
 using System.Diagnostics;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -60,9 +62,16 @@ namespace RaceStrategyApp.Controllers {
                 }
             }
 
+
             if (id == null) return NotFound();
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
+
+            if (race.LapCount + 1 <= race.NumberOfLaps) {
+                ViewData["LapCount++?"] = true;
+            }
+            else ViewData["LapCount++?"] = false;
+
             return View(race);
         }
 
@@ -80,7 +89,27 @@ namespace RaceStrategyApp.Controllers {
             Ctx.SaveChanges();
 
             return View(race);
+        }
 
+        [HttpPost]
+        public IActionResult IncrementLapCount(int id) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+
+            ViewData["LapCount++?"] = true;
+
+            if (race.LapCount + 1 <= race.NumberOfLaps) {
+                race.LapCount++;
+                var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
+                if (raceProgress == null) return NotFound();
+                raceProgress.RaceSnapshots.Add(race);
+                Ctx.SaveChanges();
+            }
+            else {
+                ViewData["LapCount++?"] = false;
+            }
+            
+            return RedirectToAction("Race", race);
         }
     }
 }
