@@ -53,7 +53,7 @@ namespace RaceStrategyApp.Controllers {
             return View(race);
         }
 
-        public IActionResult Race(int? id) {
+        public async Task<IActionResult> Race(int? id) {
             ViewData["RaceStarted"] = false;
 
             if (Ctx.RaceProgresses.Any()) {
@@ -72,13 +72,13 @@ namespace RaceStrategyApp.Controllers {
             else ViewData["LapCount++?"] = false;
 
             ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
-                .Cast<weather>()
-                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
-                .ToList();
+                        .Cast<weather>()
+                        .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                        .ToList();
 
             ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
                 .Cast<trackState>()
-                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
                 .ToList();
 
             return View(race);

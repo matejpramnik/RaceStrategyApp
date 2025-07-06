@@ -68,7 +68,7 @@
             <label asp-for="LapCount">Aktuálne kolo: </label>
             <a>@Model.LapCount</a>
 
-            @if (possibleLapCount) {
+            @if (possibleLapCount && Model.TrackState != trackState.red) {
                 <button type="submit" name="increase">+</button>
             }
             
@@ -89,6 +89,7 @@
             <button type="submit" name="SaveWeather">Uložiť</button>
         </div>
     </form>
+
 
     <form method="post" asp-controller="Race" asp-action="SetState">
         <div>

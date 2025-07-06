@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RaceStrategyApp.Models;
+using System.Collections.Generic;
 
 namespace RaceStrategyApp.Controllers {
 
@@ -11,8 +13,6 @@ namespace RaceStrategyApp.Controllers {
             Ctx = new RaceStrategyContext();
         }
 
-
-       
 
     }
 }
