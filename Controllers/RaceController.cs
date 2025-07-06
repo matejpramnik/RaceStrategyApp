@@ -76,6 +76,11 @@ namespace RaceStrategyApp.Controllers {
                 .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
                 .ToList();
 
+            ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
+                .Cast<trackState>()
+                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                .ToList();
+
             return View(race);
         }
 
@@ -117,11 +122,25 @@ namespace RaceStrategyApp.Controllers {
         }
 
         [HttpPost]
-        public IActionResult SaveWeather(int id, weather trackWeather) {
+        public IActionResult SetWeather(int id, weather trackWeather) {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
             race.TrackWeather = trackWeather;
+            var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
+            if (raceProgress == null) return NotFound();
+            raceProgress.RaceSnapshots.Add(race);
+            Ctx.SaveChanges();
+
+            return RedirectToAction("Race", race);
+        }
+
+        [HttpPost]
+        public IActionResult SetState(int id, trackState trackState) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+
+            race.TrackState = trackState;
             var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
             if (raceProgress == null) return NotFound();
             raceProgress.RaceSnapshots.Add(race);
