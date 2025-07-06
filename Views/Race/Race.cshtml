@@ -74,5 +74,20 @@
             
         </div>
     </form>
+
+
+    <form method="post" asp-controller="Race" asp-action="SaveWeather">
+        <div>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label asp-for="TrackWeather">Počasie: </label>
+            <a>@Model.TrackWeather</a>
+            @Html.DropDownListFor(
+                        model => model.TrackWeather,
+                    (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList,
+                    new { @class = "form-control" })
+
+            <button type="submit" name="SaveWeather">Uložiť</button>
+        </div>
+    </form>
 }
 

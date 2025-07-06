@@ -62,7 +62,6 @@ namespace RaceStrategyApp.Controllers {
                 }
             }
 
-
             if (id == null) return NotFound();
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
@@ -71,6 +70,11 @@ namespace RaceStrategyApp.Controllers {
                 ViewData["LapCount++?"] = true;
             }
             else ViewData["LapCount++?"] = false;
+
+            ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
+                .Cast<weather>()
+                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                .ToList();
 
             return View(race);
         }
@@ -109,6 +113,20 @@ namespace RaceStrategyApp.Controllers {
                 ViewData["LapCount++?"] = false;
             }
             
+            return RedirectToAction("Race", race);
+        }
+
+        [HttpPost]
+        public IActionResult SaveWeather(int id, weather trackWeather) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+
+            race.TrackWeather = trackWeather;
+            var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
+            if (raceProgress == null) return NotFound();
+            raceProgress.RaceSnapshots.Add(race);
+            Ctx.SaveChanges();
+
             return RedirectToAction("Race", race);
         }
     }
