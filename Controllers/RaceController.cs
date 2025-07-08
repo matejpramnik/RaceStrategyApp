@@ -53,18 +53,16 @@ namespace RaceStrategyApp.Controllers {
             return View(race);
         }
 
-        public async Task<IActionResult> Race(int? id) {
+        public IActionResult Race(int? id) {
             ViewData["RaceStarted"] = false;
-
-            if (Ctx.RaceProgresses.Any()) {
-                if (Ctx.RaceProgresses.Any(rp => rp.RaceId == id) == true) {
-                    ViewData["RaceStarted"] = true;
-                }
-            }
 
             if (id == null) return NotFound();
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
+
+            if (Ctx.RaceProgresses.Any(rp => rp.RaceId == id) == true) {
+                ViewData["RaceStarted"] = true;
+            }
 
             if (race.LapCount + 1 <= race.NumberOfLaps) {
                 ViewData["LapCount++?"] = true;
@@ -89,6 +87,16 @@ namespace RaceStrategyApp.Controllers {
             ViewData["RaceStarted"] = true;
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
+
+            ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
+                .Cast<weather>()
+                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                .ToList();
+
+            ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
+                .Cast<trackState>()
+                .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
+                .ToList();
 
             RaceProgress newRace = new RaceProgress() {
                 RaceId = id
