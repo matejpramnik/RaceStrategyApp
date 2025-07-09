@@ -11,11 +11,14 @@ namespace RaceStrategyApp.Models {
         public int NumberOfLaps { get; set; }
         public int LapCount { get; set; }
         public int MandatoryStops { get; set; }
+        public int NumberOfStops { get; set; }
         public bool Refueling { get; set; }
+        public int LastRefuelLap { get; set; }
         public int Position { get; set; }
         public int AmountOfOpponents { get; set; }
         public virtual ICollection<Tyre> AvailableTyres { get; set; } = new List<Tyre>();
         public List<tyreCompound> SelectedTyres { get; set; } = new();
+        public tyreCompound CurrentTyre { get; set; }
         public trackState TrackState { get; set; }
         public bool Damage { get; set; }
         public bool TerminalDamage { get; set; }

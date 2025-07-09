@@ -22,6 +22,8 @@ namespace RaceStrategyApp.Controllers {
                 Damage = false,
                 TerminalDamage = false,
                 LapCount = 0,
+                NumberOfStops = 0,
+                LastRefuelLap = 0,
             };
             race.SelectedTyres.Add(tyreCompound.generic);
 
@@ -78,6 +80,10 @@ namespace RaceStrategyApp.Controllers {
                     .Cast<trackState>()
                     .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
                     .ToList();
+
+                ViewBag.TyreList = race.SelectedTyres
+                    .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
+                    .ToList();
             }
 
             return View(race);
@@ -98,6 +104,10 @@ namespace RaceStrategyApp.Controllers {
                 .Cast<trackState>()
                 .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
             .ToList();
+
+            ViewBag.TyreList = race.SelectedTyres
+                    .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
+                    .ToList();
 
             if (Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id) == null) {
                 RaceProgress newRace = new RaceProgress() {
@@ -148,6 +158,7 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             race.TrackState = trackState;
+
             int res = FindAndSaveProgress(race);
             if (res == -1) return NotFound();
 
@@ -168,6 +179,22 @@ namespace RaceStrategyApp.Controllers {
             return RedirectToAction("Race", race);
         }
 
+        [HttpPost]
+        public IActionResult Pit(int id, tyreCompound newTyre, bool refueling) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+
+            race.CurrentTyre = newTyre;
+            race.NumberOfStops++;
+            if (refueling) {
+                race.LastRefuelLap = race.LapCount;
+            }
+
+            int res = FindAndSaveProgress(race);
+            if (res == -1) return NotFound();
+
+            return RedirectToAction("Race", race);
+        }
 
         private int FindAndSaveProgress(Race race) {
             var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id);

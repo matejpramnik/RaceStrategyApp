@@ -13,18 +13,19 @@
             <tr>
                 <th>Akcia</th>
                 <th>Id</th>
-                <th>Name</th>
-                <th>NumberOfLaps</th>
-                <th>LapCount</th>
-                <th>MandatoryStops</th>
-                <th>Refueling</th>
-                <th>Position</th>
-                <th>AmountOfOpponents</th>
-                <th>AvailableTyres</th>
-                <th>TrackState</th>
-                <th>Damage</th>
-                <th>TerminalDamage</th>
-                <th>TrackWeather</th>
+                <th>Názov</th>
+                <th>Počet kôl pretekov</th>
+                <th>Aktuálne kolo</th>
+                <th>Počet povinných zastávok</th>
+                <th>Počet absolvovaných zastávok</th>
+                <th>Tankovanie</th>
+                <th>Pozícia</th>
+                <th>Počet protivníkov</th>
+                <th>Sady pneumatík k dispozícii</th>
+                <th>Stav trate</th>
+                <th>Počasie</th>
+                <th>Poškodenie</th>
+                <th>Totálne poškodenie</th>
             </tr>
         </thead>
 
@@ -39,14 +40,20 @@
                         <td>@race.NumberOfLaps</td>
                         <td>@race.LapCount</td>
                         <td>@race.MandatoryStops</td>
+                        <td>@race.NumberOfStops</td>
                         <td>@race.Refueling</td>
                         <td>@race.Position</td>
                         <td>@race.AmountOfOpponents</td>
-                        <td>@race.AvailableTyres</td>
+                        <td>
+                            @foreach (var tyre in race.SelectedTyres) {
+                                <a>@tyre</a>
+                                <br />
+                            }
+                        </td>
                         <td>@race.TrackState</td>
+                        <td>@race.TrackWeather</td>
                         <td>@race.Damage</td>
                         <td>@race.TerminalDamage</td>
-                        <td>@race.TrackWeather</td>
                     </tr>
                 }
             }

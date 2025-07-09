@@ -1,125 +1,165 @@
 ﻿@model RaceStrategyApp.Models.Race
+
 @{
-    ViewData["Title"] = "Preteky";
+    ViewData["Title"] = "Race";
     var raceStarted = ViewData["RaceStarted"] as bool? ?? false;
     var possibleLapCount = ViewData["LapCount++?"] as bool? ?? true;
 }
 
+<style>
+    .container {
+        margin-right: revert;
+        margin-left: revert;
+    }
+    .controls-container {
+    }
+    table {
+    border-collapse: collapse;
+    }
 
-<div>
-    <table class="table">
-        <thead>
+    tr {
+    border: none;
+    }
 
-            <th>Id</th>
-            <th>Name</th>
-            <th>NumberOfLaps</th>
-            <th>LapCount</th>
-            <th>MandatoryStops</th>
-            <th>Refueling</th>
-            <th>Position</th>
-            <th>AmountOfOpponents</th>
-            <th>AvailableTyres</th>
-            <th>TrackState</th>
-            <th>Damage</th>
-            <th>TerminalDamage</th>
-            <th>TrackWeather</th>
+    td {
+    border-left: solid 1px;
+    }
+</style>
 
-        </thead>
+<div style="display: flex; width: max-content;">
 
-        <tbody>
-            <tr>
-                <td>@Model.Id</td>
-                <td>@Model.Name</td>
-                <td>@Model.NumberOfLaps</td>
-                <td>@Model.LapCount</td>
-                <td>@Model.MandatoryStops</td>
-                <td>@Model.Refueling</td>
-                <td>@Model.Position</td>
-                <td>@Model.AmountOfOpponents</td>
-                <td>@Model.AvailableTyres</td>
-                <td>@Model.TrackState</td>
-                <td>@Model.Damage</td>
-                <td>@Model.TerminalDamage</td>
-                <td>@Model.TrackWeather</td>
-            </tr>
+    <div style="margin: auto; white-space: pre-wrap;">
+        <table>
+            <tbody>
+                <tr><th>Názov</th><td>@Model.Name</td></tr>
+                <tr><th>Pozícia</th><td>@Model.Position</td></tr>
+                <tr><th>Aktuálne kolo</th><td>@Model.LapCount</td></tr>
+                <tr><th>Aktuálna zmes pneumatík</th><td>@Model.CurrentTyre</td></tr>
+                <tr><th>Počet absolvovaných zastávok</th><td>@Model.NumberOfStops</td></tr>
+                @if (Model.Refueling)
+                {
+                    <tr><th>Kolo posledného natankovania</th><td>@Model.LastRefuelLap</td></tr>
+                }
+                <tr>
+                    <th>Sady pneumatík k dispozícii</th>
+                    <td>
+                        @foreach (var tyre in Model.SelectedTyres) {
+                            @tyre
 
-        </tbody>
-    </table>
+                            <a></a>
+                        }
+                    </td>
+                </tr>
+                <tr><th>Stav trate</th><td>@Model.TrackState</td></tr>
+                <tr><th>Počasie</th><td>@Model.TrackWeather</td></tr>
+                <tr><th>Poškodenie</th><td>@Model.Damage</td></tr>
+                <tr><th>Totálne poškodenie</th><td>@Model.TerminalDamage</td></tr>
+
+                <tr><th>Počet protivníkov</th><td>@Model.AmountOfOpponents</td></tr>
+                <tr><th>Počet povinných zastávok</th><td>@Model.MandatoryStops</td></tr>
+                <tr><th>Počet kôl pretekov</th><td>@Model.NumberOfLaps</td></tr>
+                <tr><th>Tankovanie</th><td>@Model.Refueling</td></tr>
+                <tr><th>Id</th><td>@Model.Id</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="controls-container" style="align-self:center;">
+        @if (!raceStarted) {
+            <form method="post">
+                <button type="submit" name="startRace" value="true">Začať preteky</button>
+            </form>
+        }
+
+
+        @if (raceStarted) {
+            <br>
+
+            <form method="post" asp-controller="Race" asp-action="IncrementLapCount">
+                <div>
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <label asp-for="LapCount">Aktuálne kolo: </label>
+                    <a>@Model.LapCount</a>
+
+                    @if (possibleLapCount && Model.TrackState != trackState.red) {
+                        <button type="submit" name="increase">+</button>
+                    }
+
+                </div>
+            </form>
+
+            <br />
+
+            <div>
+                <form method="post" asp-controller="Race" asp-action="UpdatePosition">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <label asp-for="Position" for="newPos">Pozícia: </label>
+                    <button type="submit" name="newPos" value="-1">-</button>
+
+                    <a>@Model.Position</a>
+
+                    <button type="submit" name="newPos" value="1">+</button>
+                </form>
+            </div>
+
+            <br />
+
+            <form method="post" asp-controller="Race" asp-action="SetWeather">
+                <div>
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <label asp-for="TrackWeather">Počasie: </label>
+                    <a>@Model.TrackWeather</a>
+                    @Html.DropDownListFor(
+                             model => model.TrackWeather,
+                             (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList,
+                             new { @class = "form-control" })
+
+                    <button type="submit" name="SaveWeather">Uložiť</button>
+                </div>
+            </form>
+
+            <br />
+
+            <form method="post" asp-controller="Race" asp-action="SetState">
+                <div>
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <label asp-for="TrackState">Stav: </label>
+                    <a>@Model.TrackState</a>
+                    @Html.DropDownListFor(
+                             model => model.TrackState,
+                             (IEnumerable<SelectListItem>)ViewBag.TrackStateList,
+                             new { @class = "form-control" })
+
+                    <button type="submit" name="SetState">Uložiť</button>
+                </div>
+            </form>
+
+            <br />
+
+            <div style="display: flex; width: max-content;">
+                <form method="post" asp-controller="Race" asp-action="Pit">
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                        <label asp-for="SelectedTyres" style="margin: 0; white-space: nowrap;">Vybrať zmes pneumatík: </label>
+                        @Html.DropDownListFor(
+                                 model => model.SelectedTyres,
+                                 (IEnumerable<SelectListItem>)ViewBag.TyreList,
+                                 new { @class = "form-control", style = "flex: 1;" })
+                    </div>
+
+                    @if (Model.Refueling) {
+                        <div>
+                            <label asp-for="Refueling">Tankovať: </label>
+                            <input type="checkbox" name="refuel" />
+                        </div>
+                    }
+
+                    <button type="submit" name="Pit">Ísť do Pit Boxov</button>
+                </form>
+            </div>
+        }
+    </div>
+
 </div>
-
-@if (!raceStarted) {
-    <form method="post">
-        <button type="submit" name="startRace" value="true">Začať preteky</button>
-    </form>
-}
-
-
-@if (raceStarted) {
-    <div>
-        <a>Preteky začaté</a>
-    </div>
-
-    <br>
-    <br>
-
-    <form method="post" asp-controller="Race" asp-action="IncrementLapCount">
-        <div>
-            <input type="hidden" name="id" value="@Model.Id" />
-            <label asp-for="LapCount">Aktuálne kolo: </label>
-            <a>@Model.LapCount</a>
-
-            @if (possibleLapCount && Model.TrackState != trackState.red) {
-                <button type="submit" name="increase">+</button>
-            }
-            
-        </div>
-    </form>
-
-    <br />
-
-    <div>
-        <form method="post" asp-controller="Race" asp-action="UpdatePosition">
-            <input type="hidden" name="id" value="@Model.Id" />
-            <label asp-for="Position" for="newPos">Pozícia: </label>
-            <button type="submit" name="newPos" value="-1">-</button>
-
-            <a>@Model.Position</a>
-        
-            <button type="submit" name="newPos" value="1">+</button>
-        </form>
-    </div>
-
-    <br />
-
-    <form method="post" asp-controller="Race" asp-action="SetWeather">
-        <div>
-            <input type="hidden" name="id" value="@Model.Id" />
-            <label asp-for="TrackWeather">Počasie: </label>
-            <a>@Model.TrackWeather</a>
-            @Html.DropDownListFor(
-                     model => model.TrackWeather,
-                     (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList,
-                     new { @class = "form-control" })
-
-            <button type="submit" name="SaveWeather">Uložiť</button>
-        </div>
-    </form>
-
-    <br />
-    <br />
-
-    <form method="post" asp-controller="Race" asp-action="SetState">
-        <div>
-            <input type="hidden" name="id" value="@Model.Id" />
-            <label asp-for="TrackState">Stav: </label>
-            <a>@Model.TrackState</a>
-            @Html.DropDownListFor(
-                     model => model.TrackState,
-                     (IEnumerable<SelectListItem>)ViewBag.TrackStateList,
-                     new { @class = "form-control" })
-
-            <button type="submit" name="SetState">Uložiť</button>
-        </div>
-    </form>
-}
-
