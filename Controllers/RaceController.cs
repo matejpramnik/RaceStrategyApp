@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using RaceStrategyApp.Migrations;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -62,22 +63,22 @@ namespace RaceStrategyApp.Controllers {
 
             if (Ctx.RaceProgresses.Any(rp => rp.RaceId == id) == true) {
                 ViewData["RaceStarted"] = true;
+
+                if (race.LapCount + 1 <= race.NumberOfLaps) {
+                    ViewData["LapCount++?"] = true;
+                }
+                else ViewData["LapCount++?"] = false;
+
+                ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
+                            .Cast<weather>()
+                            .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                            .ToList();
+
+                ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
+                    .Cast<trackState>()
+                    .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
+                    .ToList();
             }
-
-            if (race.LapCount + 1 <= race.NumberOfLaps) {
-                ViewData["LapCount++?"] = true;
-            }
-            else ViewData["LapCount++?"] = false;
-
-            ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
-                        .Cast<weather>()
-                        .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
-                        .ToList();
-
-            ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
-                .Cast<trackState>()
-                .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
-                .ToList();
 
             return View(race);
         }
@@ -96,14 +97,16 @@ namespace RaceStrategyApp.Controllers {
             ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
                 .Cast<trackState>()
                 .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
-                .ToList();
+            .ToList();
 
-            RaceProgress newRace = new RaceProgress() {
-                RaceId = id
-            };
-            newRace.RaceSnapshots.Add(race);
-            Ctx.RaceProgresses.Add(newRace);
-            Ctx.SaveChanges();
+            if (Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id) == null) {
+                RaceProgress newRace = new RaceProgress() {
+                    RaceId = id
+                };
+                newRace.RaceSnapshots.Add(race);
+                Ctx.RaceProgresses.Add(newRace);
+                Ctx.SaveChanges();
+            }
 
             return View(race);
         }
@@ -117,10 +120,8 @@ namespace RaceStrategyApp.Controllers {
 
             if (race.LapCount + 1 <= race.NumberOfLaps) {
                 race.LapCount++;
-                var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
-                if (raceProgress == null) return NotFound();
-                raceProgress.RaceSnapshots.Add(race);
-                Ctx.SaveChanges();
+                int res = FindAndSaveProgress(race);
+                if (res == -1) return NotFound();
             }
             else {
                 ViewData["LapCount++?"] = false;
@@ -135,10 +136,8 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             race.TrackWeather = trackWeather;
-            var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
-            if (raceProgress == null) return NotFound();
-            raceProgress.RaceSnapshots.Add(race);
-            Ctx.SaveChanges();
+            int res = FindAndSaveProgress(race);
+            if (res == -1) return NotFound();
 
             return RedirectToAction("Race", race);
         }
@@ -149,12 +148,33 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             race.TrackState = trackState;
-            var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == id);
-            if (raceProgress == null) return NotFound();
-            raceProgress.RaceSnapshots.Add(race);
-            Ctx.SaveChanges();
+            int res = FindAndSaveProgress(race);
+            if (res == -1) return NotFound();
 
             return RedirectToAction("Race", race);
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePosition(int id, int newPos) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+
+            if (race.Position + newPos >= 1) {
+                race.Position += newPos;
+                int res = FindAndSaveProgress(race);
+                if (res == -1) return NotFound();
+            }
+            
+            return RedirectToAction("Race", race);
+        }
+
+
+        private int FindAndSaveProgress(Race race) {
+            var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id);
+            if (raceProgress == null) return -1;
+            raceProgress.RaceSnapshots.Add(race);
+            Ctx.SaveChanges();
+            return 0;
         }
     }
 }

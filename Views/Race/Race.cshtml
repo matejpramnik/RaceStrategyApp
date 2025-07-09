@@ -75,6 +75,21 @@
         </div>
     </form>
 
+    <br />
+
+    <div>
+        <form method="post" asp-controller="Race" asp-action="UpdatePosition">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label asp-for="Position" for="newPos">Pozícia: </label>
+            <button type="submit" name="newPos" value="-1">-</button>
+
+            <a>@Model.Position</a>
+        
+            <button type="submit" name="newPos" value="1">+</button>
+        </form>
+    </div>
+
+    <br />
 
     <form method="post" asp-controller="Race" asp-action="SetWeather">
         <div>
@@ -82,13 +97,16 @@
             <label asp-for="TrackWeather">Počasie: </label>
             <a>@Model.TrackWeather</a>
             @Html.DropDownListFor(
-                      model => model.TrackWeather,
-                    (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList)
+                     model => model.TrackWeather,
+                     (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList,
+                     new { @class = "form-control" })
 
             <button type="submit" name="SaveWeather">Uložiť</button>
         </div>
     </form>
 
+    <br />
+    <br />
 
     <form method="post" asp-controller="Race" asp-action="SetState">
         <div>
