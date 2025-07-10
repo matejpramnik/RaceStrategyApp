@@ -16,12 +16,12 @@ namespace RaceStrategyApp.Models {
         public int LastRefuelLap { get; set; }
         public int Position { get; set; }
         public int AmountOfOpponents { get; set; }
-        public List<tyreCompound> SelectedTyres { get; set; } = new();
-        public tyreCompound CurrentTyre { get; set; }
-        public trackState TrackState { get; set; }
+        public List<TyreCompound> SelectedTyres { get; set; } = new();
+        public TyreCompound CurrentTyre { get; set; }
+        public TrackState TrackState { get; set; }
         public bool Damage { get; set; }
         public bool TerminalDamage { get; set; }
-        public weather TrackWeather { get; set; }
+        public Weather TrackWeather { get; set; }
         public virtual int RaceSeriesId { get; set; } // cudzi kluc
 
     }

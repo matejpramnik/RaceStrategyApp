@@ -45,9 +45,9 @@
                     <select asp-for="SelectedTyres[i]"
                     class="form-select tyre-dropdown">
                         <option value="">-- Zvoliť zmes pneumatík --</option>
-                        @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
+                        @foreach (var compound in Enum.GetValues(typeof(TyreCompound))) {
                             <option value="@compound"
-                            selected="@(Model.SelectedTyres[i] == (tyreCompound)compound)">
+                            selected="@(Model.SelectedTyres[i] == (TyreCompound)compound)">
                                 @compound
                             </option>
                         }
@@ -106,7 +106,7 @@
                             <select name="SelectedTyres[${index}]"
                                     class="form-select tyre-dropdown">
                                 <option value="">-- Zvoliť zmes pneumatík --</option>
-        @foreach (var compound in Enum.GetValues(typeof(tyreCompound))) {
+        @foreach (var compound in Enum.GetValues(typeof(TyreCompound))) {
                                         <option value="@compound">@compound</option>
         }
                             </select>

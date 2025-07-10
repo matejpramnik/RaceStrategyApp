@@ -20,7 +20,7 @@ namespace RaceStrategyApp.Controllers {
 
         public IActionResult NewRace() {
             var race = new Race() {
-                TrackState = trackState.green,
+                TrackState = TrackState.green,
                 Damage = false,
                 TerminalDamage = false,
                 LapCount = 0,
@@ -28,15 +28,15 @@ namespace RaceStrategyApp.Controllers {
                 LastRefuelLap = 0,
                 AmountOfOpponents = 0,
             };
-            race.SelectedTyres.Add(tyreCompound.generic);
+            race.SelectedTyres.Add(TyreCompound.generic);
 
             var raceSeriesList = Ctx.RaceSeries
                 .Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
                 .ToList();
             ViewBag.RaceSeriesList = raceSeriesList;
 
-            ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
-                .Cast<weather>()
+            ViewBag.TrackWeatherList = Enum.GetValues(typeof(Weather))
+                .Cast<Weather>()
                 .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
                 .ToList();
 
@@ -75,13 +75,13 @@ namespace RaceStrategyApp.Controllers {
                 }
                 else ViewData["LapCount++?"] = false;
 
-                ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
-                            .Cast<weather>()
+                ViewBag.TrackWeatherList = Enum.GetValues(typeof(Weather))
+                            .Cast<Weather>()
                             .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
                             .ToList();
 
-                ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
-                    .Cast<trackState>()
+                ViewBag.TrackStateList = Enum.GetValues(typeof(TrackState))
+                    .Cast<TrackState>()
                     .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
                     .ToList();
 
@@ -99,13 +99,13 @@ namespace RaceStrategyApp.Controllers {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
-            ViewBag.TrackWeatherList = Enum.GetValues(typeof(weather))
-                .Cast<weather>()
+            ViewBag.TrackWeatherList = Enum.GetValues(typeof(Weather))
+                .Cast<Weather>()
                 .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
                 .ToList();
 
-            ViewBag.TrackStateList = Enum.GetValues(typeof(trackState))
-                .Cast<trackState>()
+            ViewBag.TrackStateList = Enum.GetValues(typeof(TrackState))
+                .Cast<TrackState>()
                 .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
             .ToList();
 
@@ -145,7 +145,7 @@ namespace RaceStrategyApp.Controllers {
         }
 
         [HttpPost]
-        public IActionResult SetWeather(int id, weather trackWeather) {
+        public IActionResult SetWeather(int id, Weather trackWeather) {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
@@ -157,7 +157,7 @@ namespace RaceStrategyApp.Controllers {
         }
 
         [HttpPost]
-        public IActionResult SetState(int id, trackState trackState) {
+        public IActionResult SetState(int id, TrackState trackState) {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
@@ -184,8 +184,7 @@ namespace RaceStrategyApp.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Pit(int id, tyreCompound newTyre, bool refueling) {
-            Console.WriteLine($"Received tyre: {newTyre}, Type: {newTyre.GetType()}");
+        public IActionResult Pit(int id, TyreCompound newTyre, bool refueling) {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
@@ -195,6 +194,18 @@ namespace RaceStrategyApp.Controllers {
                 race.LastRefuelLap = race.LapCount;
             }
 
+            int res = FindAndSaveProgress(race);
+            if (res == -1) return NotFound();
+
+            return RedirectToAction("Race", race);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveOpponent(int id) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+
+            race.AmountOfOpponents--;
             int res = FindAndSaveProgress(race);
             if (res == -1) return NotFound();
 

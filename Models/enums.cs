@@ -1,5 +1,5 @@
 ﻿namespace RaceStrategyApp.Models {
-    public enum weather {
+    public enum Weather {
         dry,
         damp,
         intermediate,
@@ -7,7 +7,7 @@
         heavyWet
     }
 
-    public enum tyreCompound {
+    public enum TyreCompound {
         generic,
         slick,
         soft,
@@ -18,7 +18,7 @@
         wet
     }
 
-    public enum trackState {
+    public enum TrackState {
         green,
         FCY,
         SC,
