@@ -1,31 +1,82 @@
-html {
-  font-size: 14px;
+/* RACE SPECIFIC STYLES */
+.race-container {
+    max-width: 1400px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.race-detail-card {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.3rem;
+    overflow: hidden;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.race-detail-table {
+    width: 100%;
+    margin: 0;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.race-detail-table th {
+    background-color: #f8f9fa;
+    width: 40%;
+    vertical-align: middle;
 }
 
-body {
-  margin-bottom: 60px;
+.race-detail-table td {
+    vertical-align: middle;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.control-panel {
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.control-group {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.05);
+}
+
+.control-header {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #0d6efd;
+    display: flex;
+    align-items: center;
+}
+
+.control-value {
+    font-size: 1.25rem;
+    font-weight: 500;
+    min-width: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-race {
+    min-width: 120px;
+    padding: 0.5rem 1rem;
+}
+
+.tyre-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    border-radius: 50rem;
+    background: #e9ecef;
+    font-size: 0.875em;
+    margin: 0.15rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .control-group {
+        padding: 0.75rem;
+    }
+    
+    .btn-race {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
 }

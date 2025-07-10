@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using RaceStrategyApp.Migrations;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -24,6 +26,7 @@ namespace RaceStrategyApp.Controllers {
                 LapCount = 0,
                 NumberOfStops = 0,
                 LastRefuelLap = 0,
+                AmountOfOpponents = 0,
             };
             race.SelectedTyres.Add(tyreCompound.generic);
 
@@ -42,10 +45,11 @@ namespace RaceStrategyApp.Controllers {
 
         [HttpPost]
         public IActionResult NewRace(Race race) {
-            race.AvailableTyres = race.SelectedTyres
-                .Where(t => t != null)
-                .Select(t => new Tyre { Compound = t })
-                .ToList();
+            var rs = Ctx.RaceSeries.FirstOrDefault(rs => rs.Id == race.RaceSeriesId);
+            if (rs != null) {
+                race.AmountOfOpponents = rs.ParticipantCount - 1;
+            }
+            race.CurrentTyre = race.SelectedTyres[0];
 
             if (ModelState.IsValid) {
                 Ctx.Races.Add(race);
@@ -181,6 +185,7 @@ namespace RaceStrategyApp.Controllers {
 
         [HttpPost]
         public IActionResult Pit(int id, tyreCompound newTyre, bool refueling) {
+            Console.WriteLine($"Received tyre: {newTyre}, Type: {newTyre.GetType()}");
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
@@ -200,6 +205,7 @@ namespace RaceStrategyApp.Controllers {
             var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id);
             if (raceProgress == null) return -1;
             raceProgress.RaceSnapshots.Add(race);
+            Ctx.Entry(race).State = EntityState.Modified;
             Ctx.SaveChanges();
             return 0;
         }

@@ -27,10 +27,6 @@
         <input asp-for="Position" />
     </div>
     <div>
-        <label asp-for="AmountOfOpponents">Počet protivníkov</label>
-        <input asp-for="AmountOfOpponents" />
-    </div>
-    <div>
         <label asp-for="TrackWeather">Počasie</label>
         @Html.DropDownListFor(
                  model => model.TrackWeather,
@@ -91,6 +87,7 @@
     <input type="hidden" asp-for="TrackState" />
     <input type="hidden" asp-for="LapCount" />
     <input type="hidden" asp-for="NumberOfStops" />
+    <input type="hidden" asp-for="AmountOfOpponents" />
     
     <button type="submit" class="btn btn-primary">Uložiť</button>
     

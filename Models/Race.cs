@@ -16,7 +16,6 @@ namespace RaceStrategyApp.Models {
         public int LastRefuelLap { get; set; }
         public int Position { get; set; }
         public int AmountOfOpponents { get; set; }
-        public virtual ICollection<Tyre> AvailableTyres { get; set; } = new List<Tyre>();
         public List<tyreCompound> SelectedTyres { get; set; } = new();
         public tyreCompound CurrentTyre { get; set; }
         public trackState TrackState { get; set; }
