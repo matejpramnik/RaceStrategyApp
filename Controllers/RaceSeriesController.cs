@@ -6,9 +6,15 @@ using System.Diagnostics;
 namespace RaceStrategyApp.Controllers {
     public class RaceSeriesController : BaseController {
 
-        public virtual IActionResult All() {
-            List<RaceSeries> series = Ctx.RaceSeries.ToList();
-            return View(series);
+        public async virtual Task<IActionResult> All() {
+            var rs = await Cont.RaceSeries.ExecuteAsync();
+            List<RaceSeries> retval = new List<RaceSeries>();
+
+            foreach (var ras in rs) {
+                retval.Add(ras);
+            }
+
+            return View(retval);
         }
 
         public IActionResult NewRaceSeries() {

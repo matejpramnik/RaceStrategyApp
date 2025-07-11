@@ -2,24 +2,34 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaceStrategyApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
 
         public async virtual Task<IActionResult> All() {
             var races = await Cont.Race.ExecuteAsync();
+            List<Race> retval = new List<Race>();
 
             foreach (var race in races) {
-                Console.WriteLine(race.Name);
+                retval.Add(race);
             }
 
-            List<Race> ra = Ctx.Races.ToList();
-            return View(ra);
+            return View(retval);
         }
 
+        [HttpPost]
+        public async virtual Task<IActionResult> All(int? RSid) {
+            var races = await Cont.Race.ExecuteAsync();
+            List<Race> retval = new List<Race>();
 
+            foreach (var race in races) {if (race.RaceSeriesId == RSid) retval.Add(race);
+            }
 
-        public IActionResult NewRace() {
+            return View(retval);
+        }
+
+        public async Task<IActionResult> NewRace() {
             var race = new Race() {
                 TrackState = TrackState.green,
                 Damage = false,
@@ -31,7 +41,11 @@ namespace RaceStrategyApp.Controllers {
             };
             race.SelectedTyres.Add(TyreCompound.generic);
 
-            var raceSeriesList = Ctx.RaceSeries
+            var raceSeriesList = await Cont.RaceSeries.
+                Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
+                .ToListAsync();
+
+            var araceSeriesList = Ctx.RaceSeries
                 .Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
                 .ToList();
             ViewBag.RaceSeriesList = raceSeriesList;

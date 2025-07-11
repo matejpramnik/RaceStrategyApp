@@ -23,6 +23,15 @@
         <Property Name="TrackWeather" Type="RaceStrategyApp.Models.Weather" Nullable="false" />
         <Property Name="RaceSeriesId" Type="Edm.Int32" Nullable="false" />
       </EntityType>
+      <EntityType Name="RaceSeries">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" />
+        <Property Name="ParticipantCount" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="Races" Type="Collection(RaceStrategyApp.Models.Race)" />
+      </EntityType>
       <EnumType Name="TyreCompound">
         <Member Name="generic" Value="0" />
         <Member Name="slick" Value="1" />
@@ -51,6 +60,9 @@
     <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
       <EntityContainer Name="Container">
         <EntitySet Name="Race" EntityType="RaceStrategyApp.Models.Race" />
+        <EntitySet Name="RaceSeries" EntityType="RaceStrategyApp.Models.RaceSeries">
+          <NavigationPropertyBinding Path="Races" Target="Race" />
+        </EntitySet>
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

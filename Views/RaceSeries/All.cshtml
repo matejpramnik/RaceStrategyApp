@@ -25,7 +25,14 @@
                         <td>@raceSeries.Id</td>
                         <td>@raceSeries.Name</td>
                         <td>@raceSeries.ParticipantCount</td>
-                        <td><a asp-controller="Race" asp-action="All" asp-route-id="@raceSeries.Id">Zobraziť preteky</a></td>
+                        <td>
+                            <form method="post" asp-controller="Race" asp-action="All">
+                                <input type="hidden" name="RSid" value="@raceSeries.Id" />
+                                <button type="submit" name="All">Zobraziť preteky</button>
+                            </form>
+                        </td>
+
+                        
                     </tr>
                 }
             }
