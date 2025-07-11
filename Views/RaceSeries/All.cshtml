@@ -2,18 +2,44 @@
 @{
     ViewData["Title"] = "Šampionáty";
 }
+<style>
+    .race-detail-table th {
+        background-color: #f8f9fa;
+        width: auto;
+        vertical-align: middle;
+        margin-inline: 4px;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    tr {
+        border: solid;
+        border-width: 1px 0;
+        border-color: #999999;
+    }
+    tr:first-child {
+        border-top: none;
+    }
 
+    tr:last-child {
+        border-bottom: none;
+    }
+</style>
 
-<div class="text-center">
-    <h1 class="display-4">Šampionáty</h1>
+<div class="text-center container mt-4">
+    <div class="card-header bg-primary text-white">
+        <h2>Šampionáty</h2>
+    </div>
+    
 
-    <table class="table">
+    <table class="table table-striped race-detail-table" style="table-layout: auto; width: 100%;">
 
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Meno</th>
                 <th>ParticipantCount</th>
+                <th>Akcia</th>
             </tr>
         </thead>
 

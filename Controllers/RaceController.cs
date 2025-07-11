@@ -41,11 +41,8 @@ namespace RaceStrategyApp.Controllers {
             };
             race.SelectedTyres.Add(TyreCompound.generic);
 
-            var raceSeriesList = await Cont.RaceSeries.
-                Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
-                .ToListAsync();
-
-            var araceSeriesList = Ctx.RaceSeries
+            var series = await Cont.RaceSeries.ExecuteAsync();
+            var raceSeriesList = series
                 .Select(rs => new SelectListItem { Value = rs.Id.ToString(), Text = rs.Name })
                 .ToList();
             ViewBag.RaceSeriesList = raceSeriesList;
@@ -59,17 +56,18 @@ namespace RaceStrategyApp.Controllers {
         }
 
         [HttpPost]
-        public IActionResult NewRace(Race race) {
-            var rs = Ctx.RaceSeries.FirstOrDefault(rs => rs.Id == race.RaceSeriesId);
+        public async Task<IActionResult> NewRace(Race race) {
+            var raceSeries = await Cont.RaceSeries.ExecuteAsync();
+            var rs = raceSeries.FirstOrDefault(rs => rs.Id == race.RaceSeriesId);
             if (rs != null) {
                 race.AmountOfOpponents = rs.ParticipantCount - 1;
             }
             race.CurrentTyre = race.SelectedTyres[0];
 
             if (ModelState.IsValid) {
-                Ctx.Races.Add(race);
-                Ctx.SaveChanges();
-                
+                Cont.AddToRace(race);
+                await Cont.SaveChangesAsync();
+
                 return RedirectToAction("Race", "Race", new { id = race.Id });
             }
             return View(race);

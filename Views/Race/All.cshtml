@@ -2,12 +2,35 @@
 @{
     ViewData["Title"] = "Preteky";
 }
+<style>
+    .race-detail-table th {
+        background-color: #f8f9fa;
+        width: auto;
+        vertical-align: middle;
+        margin-inline: 4px;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    tr {
+        border: solid;
+        border-width: 1px 0;
+        border-color: #999999;
+    }
+    tr:first-child {
+    border-top: none;
+    }
+    tr:last-child {
+      border-bottom: none;
+    }
+</style>
 
-
-<div>
-    <h1 class="display-2">Preteky</h1>
-
-    <table class="table">
+<div class="text-center mt-4">
+    <div class="card-header bg-primary text-white">
+        <h2>Preteky</h2>
+    </div>
+    
+    <table class="table table-striped race-detail-table" style="table-layout: auto; width: 100%;">
 
         <thead>
             <tr>
@@ -34,26 +57,25 @@
             @if (Model != null && Model.Any()) {
                 @foreach (var race in Model) {
                     <tr>
-                        <td><a asp-action="Race" asp-route-id="@race.Id">Detaily</a></td>
+                        <td><a asp-action="Race" asp-route-id="@race.Id" style="margin-inline: 0.5rem;">Detaily</a></td>
                         <td>@race.Id</td>
                         <td>@race.Name</td>
                         <td>@race.NumberOfLaps</td>
                         <td>@race.LapCount</td>
                         <td>@race.MandatoryStops</td>
                         <td>@race.NumberOfStops</td>
-                        <td>@race.Refueling</td>
+                        <td>@(race.Refueling ? "Áno" : "Nie")</td>
                         <td>@race.Position</td>
                         <td>@race.AmountOfOpponents</td>
                         <td>
                             @foreach (var tyre in race.SelectedTyres) {
-                                <a>@tyre</a>
-                                <br />
+                                <span class="tyre-badge">@tyre</span>
                             }
                         </td>
                         <td>@race.TrackState</td>
                         <td>@race.TrackWeather</td>
-                        <td>@race.Damage</td>
-                        <td>@race.TerminalDamage</td>
+                        <td>@(race.Damage ? "Áno" : "Nie")</td>
+                        <td>@(race.TerminalDamage ? "Áno" : "Nie")</td>
                     </tr>
                 }
             }
@@ -62,6 +84,7 @@
                     <td colspan="5">No race found.</td>
                 </tr>
             }
+            
         </tbody>
     </table>
 </div>

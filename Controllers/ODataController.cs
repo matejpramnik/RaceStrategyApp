@@ -27,6 +27,23 @@ namespace RaceStrategyApp.Controllers {
             IQueryable<Models.Race> result = Ctx.Races.Where(r => r.Id == key);
             return SingleResult.Create(result);
         }
+
+        [EnableQuery]
+        public SingleResult<Models.RaceProgress> GetProgress([FromODataUri] int key) {
+            IQueryable<Models.RaceProgress> result = Ctx.RaceProgresses.Where(rp => rp.RaceId == key);
+            return SingleResult.Create(result);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Models.Race race) {
+            Ctx.Races.Add(race);
+            Ctx.SaveChanges();
+
+            var key = race.Id;
+            var locationUri = $"{Request.Scheme}://{Request.Host}/api/Race({key})";
+
+            return Created(locationUri, race);
+        }
     }
 
 
@@ -48,5 +65,6 @@ namespace RaceStrategyApp.Controllers {
             IQueryable<Models.RaceSeries> result = Ctx.RaceSeries.Where(r => r.Id == key);
             return SingleResult.Create(result);
         }
+
     }
 }
