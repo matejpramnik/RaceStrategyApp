@@ -18,6 +18,8 @@ namespace RaceStrategyApp.Controllers {
             return View(races);
         }
 
+
+
         public IActionResult NewRace() {
             var race = new Race() {
                 TrackState = TrackState.green,
