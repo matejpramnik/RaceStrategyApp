@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaceStrategyApp.Models;
-using System.Diagnostics;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using RaceStrategyApp.Migrations;
-using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
 
-        public virtual IActionResult All() {
-            List<Race> races = Ctx.Races.ToList();
-            return View(races);
+        public async virtual Task<IActionResult> All() {
+            var races = await Cont.Race.ExecuteAsync();
+
+            foreach (var race in races) {
+                Console.WriteLine(race.Name);
+            }
+
+            List<Race> ra = Ctx.Races.ToList();
+            return View(ra);
         }
 
 
