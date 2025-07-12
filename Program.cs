@@ -13,6 +13,7 @@ namespace RaceStrategyApp {
                 ODataConventionModelBuilder builder = new();
                 builder.EntitySet<Race>("Race");
                 builder.EntitySet<RaceSeries>("RaceSeries");
+                builder.EntitySet<RaceProgress>("RaceProgress");
                 return builder.GetEdmModel();
             }
 

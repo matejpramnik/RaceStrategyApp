@@ -32,6 +32,14 @@
         <Property Name="ParticipantCount" Type="Edm.Int32" Nullable="false" />
         <NavigationProperty Name="Races" Type="Collection(RaceStrategyApp.Models.Race)" />
       </EntityType>
+      <EntityType Name="RaceProgress">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="RaceId" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="RaceSnapshots" Type="Collection(RaceStrategyApp.Models.Race)" />
+      </EntityType>
       <EnumType Name="TyreCompound">
         <Member Name="generic" Value="0" />
         <Member Name="slick" Value="1" />
@@ -62,6 +70,9 @@
         <EntitySet Name="Race" EntityType="RaceStrategyApp.Models.Race" />
         <EntitySet Name="RaceSeries" EntityType="RaceStrategyApp.Models.RaceSeries">
           <NavigationPropertyBinding Path="Races" Target="Race" />
+        </EntitySet>
+        <EntitySet Name="RaceProgress" EntityType="RaceStrategyApp.Models.RaceProgress">
+          <NavigationPropertyBinding Path="RaceSnapshots" Target="Race" />
         </EntitySet>
       </EntityContainer>
     </Schema>

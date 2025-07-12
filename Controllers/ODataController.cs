@@ -17,20 +17,18 @@ namespace RaceStrategyApp.Controllers {
             Ctx = new RaceStrategyContext();
         }
 
+        // z nejakeho dovodu tu musim dat manualne [HttpGet] atribut, inac to nebude fungovat (404); vo vsetkych ostatnych
+        //  controlleroch a metodach, ak tam nie je atribut, je to automaticky GET metoda, okrem tejto, neviem preco;
+        //  3 hodiny som to debuggoval a hladal chybu
         [EnableQuery]
-        public IActionResult GetAll() {
+        [HttpGet]
+        public IActionResult Get() {
             return Ok(Ctx.Races);
         }
 
         [EnableQuery]
         public SingleResult<Models.Race> Get([FromODataUri] int key) {
             IQueryable<Models.Race> result = Ctx.Races.Where(r => r.Id == key);
-            return SingleResult.Create(result);
-        }
-
-        [EnableQuery]
-        public SingleResult<Models.RaceProgress> GetProgress([FromODataUri] int key) {
-            IQueryable<Models.RaceProgress> result = Ctx.RaceProgresses.Where(rp => rp.RaceId == key);
             return SingleResult.Create(result);
         }
 
@@ -66,5 +64,21 @@ namespace RaceStrategyApp.Controllers {
             return SingleResult.Create(result);
         }
 
+    }
+
+
+    [Route("api/RaceProgress")]
+    [AllowAnonymous]
+    public class ODRaceProgressController : ODataController {
+        protected RaceStrategyContext Ctx { get; set; }
+        public ODRaceProgressController() {
+            Ctx = new RaceStrategyContext();
+        }
+
+        [EnableQuery]
+        public SingleResult<Models.RaceProgress> Get([FromODataUri] int key) {
+            IQueryable<Models.RaceProgress> result = Ctx.RaceProgresses.Where(r => r.RaceId == key);
+            return SingleResult.Create(result);
+        }
     }
 }
