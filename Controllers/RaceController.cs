@@ -233,9 +233,16 @@ namespace RaceStrategyApp.Controllers {
             return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
+        public IActionResult History(int id) {
+            var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
+            var raceProgresses = Ctx.RaceProgresses.Where(rp => rp.RaceId == id).ToList();
+            if (raceProgresses == null) return NotFound();
+
+            return View(raceProgresses);
+        }
+
         private int FindAndSaveProgress(Models.Race race) {
-            var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id);
-            if (raceProgress == null) return -1;
             var newRace = new Models.RaceProgress() {
                 RaceId = race.Id,
                 RaceSnapshot = race
@@ -244,28 +251,5 @@ namespace RaceStrategyApp.Controllers {
             Ctx.SaveChanges();
             return 0;
         }
-
-        //private Models.Race RetypeRace(ODataClient.Race r) {
-        //    Models.Race race = new Models.Race {
-        //        Id = r.Id,
-        //        AmountOfOpponents = r.AmountOfOpponents,
-        //        CurrentTyre = r.CurrentTyre,
-        //        Damage = r.Damage,
-        //        LapCount = r.LapCount,
-        //        TerminalDamage = r.TerminalDamage,
-        //        LastRefuelLap = r.LastRefuelLap,
-        //        MandatoryStops = r.MandatoryStops,
-        //        Name = r.Name,
-        //        RaceSeriesId = r.RaceSeriesId,
-        //        NumberOfLaps = r.NumberOfLaps,
-        //        NumberOfStops = r.NumberOfStops,
-        //        Position = r.Position,
-        //        Refueling = r.Refueling,
-        //        TrackState = r.TrackState,
-        //        TrackWeather = r.TrackWeather,
-        //        SelectedTyres = new List<Models.TyreCompound>(r.SelectedTyres)
-        //    };
-        //    return race;
-        //}
     }
 }
