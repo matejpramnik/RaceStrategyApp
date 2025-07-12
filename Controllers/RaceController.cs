@@ -4,6 +4,8 @@ using RaceStrategyApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.ModelBuilder;
 using RaceStrategyApp.ODataClient;
+using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.OData.Client;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -78,8 +80,8 @@ namespace RaceStrategyApp.Controllers {
             ViewData["RaceStarted"] = false;
 
             if (id == null) return NotFound();
-            var race = await Cont.Race.ByKey((int)id).GetValueAsync();
-            //var raace = Ctx.Races.FirstOrDefault(r => r.Id == id);
+            var races = await Cont.Race.ExecuteAsync();
+            var race = races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
             if (Ctx.RaceProgresses.Any(rp => rp.RaceId == id) == true) {
@@ -111,12 +113,9 @@ namespace RaceStrategyApp.Controllers {
         [HttpPost]
         public async Task<IActionResult> Race(int id) {
             ViewData["RaceStarted"] = true;
-            var r = await Cont.Race.ByKey((int)id).GetValueAsync();
-            if (r == null) return NotFound();
-            Models.Race race = RetypeRace(r);
-            foreach (var tyre in race.SelectedTyres) {
-                Console.WriteLine(tyre.ToString());
-            }
+            var races = await Cont.Race.ExecuteAsync();
+            var race = races.FirstOrDefault(r => r.Id == id);
+            if (race == null) return NotFound();
 
             ViewBag.TrackWeatherList = Enum.GetValues(typeof(Models.Weather))
                 .Cast<Models.Weather>()
@@ -133,25 +132,16 @@ namespace RaceStrategyApp.Controllers {
                     .ToList();
 
 
-            //var nr = await Cont.RaceProgress.ByKey(id).GetValueAsync();
-            //if (nr == null) {
-            //    Models.RaceProgress newRace = new Models.RaceProgress() {
-            //        RaceId = id
-            //    };
-            //    newRace.RaceSnapshots.Add(race);
-            //    Ctx.RaceProgresses.Add(newRace);
-            //    Ctx.SaveChanges();
-            //}
-
-
-            //if (Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id) == null) {
-            //    RaceProgress newRace = new RaceProgress() {
-            //        RaceId = id
-            //    };
-            //    newRace.RaceSnapshots.Add(race);
-            //    Ctx.RaceProgresses.Add(newRace);
-            //    Ctx.SaveChanges();
-            //}
+            var nr = await Cont.RaceProgress.ExecuteAsync();
+            var newR = nr.FirstOrDefault(nr => nr.RaceId == id);
+            if (newR == null) {
+                Models.RaceProgress newRace = new Models.RaceProgress() {
+                    RaceId = id,
+                    RaceSnapshot = race
+                };
+                Cont.AddToRaceProgress(newRace);
+                await Cont.SaveChangesAsync();
+            }
 
             return View(race);
         }
@@ -171,8 +161,8 @@ namespace RaceStrategyApp.Controllers {
             else {
                 ViewData["LapCount++?"] = false;
             }
-            
-            return RedirectToAction("Race", race);
+
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         [HttpPost]
@@ -184,7 +174,7 @@ namespace RaceStrategyApp.Controllers {
             int res = FindAndSaveProgress(race);
             if (res == -1) return NotFound();
 
-            return RedirectToAction("Race", race);
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         [HttpPost]
@@ -197,7 +187,7 @@ namespace RaceStrategyApp.Controllers {
             int res = FindAndSaveProgress(race);
             if (res == -1) return NotFound();
 
-            return RedirectToAction("Race", race);
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         [HttpPost]
@@ -210,8 +200,8 @@ namespace RaceStrategyApp.Controllers {
                 int res = FindAndSaveProgress(race);
                 if (res == -1) return NotFound();
             }
-            
-            return RedirectToAction("Race", race);
+
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         [HttpPost]
@@ -228,7 +218,7 @@ namespace RaceStrategyApp.Controllers {
             int res = FindAndSaveProgress(race);
             if (res == -1) return NotFound();
 
-            return RedirectToAction("Race", race);
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         [HttpPost]
@@ -240,39 +230,42 @@ namespace RaceStrategyApp.Controllers {
             int res = FindAndSaveProgress(race);
             if (res == -1) return NotFound();
 
-            return RedirectToAction("Race", race);
+            return RedirectToAction("Race", "Race", new { id = race.Id });
         }
 
         private int FindAndSaveProgress(Models.Race race) {
             var raceProgress = Ctx.RaceProgresses.FirstOrDefault(rp => rp.RaceId == race.Id);
             if (raceProgress == null) return -1;
-            raceProgress.RaceSnapshots.Add(race);
-            Ctx.Entry(race).State = EntityState.Modified;
+            var newRace = new Models.RaceProgress() {
+                RaceId = race.Id,
+                RaceSnapshot = race
+            };
+            Ctx.RaceProgresses.Add(newRace);
             Ctx.SaveChanges();
             return 0;
         }
 
-        private Models.Race RetypeRace(ODataClient.Race r) {
-            Models.Race race = new Models.Race {
-                Id = r.Id,
-                AmountOfOpponents = r.AmountOfOpponents,
-                CurrentTyre = r.CurrentTyre,
-                Damage = r.Damage,
-                LapCount = r.LapCount,
-                TerminalDamage = r.TerminalDamage,
-                LastRefuelLap = r.LastRefuelLap,
-                MandatoryStops = r.MandatoryStops,
-                Name = r.Name,
-                RaceSeriesId = r.RaceSeriesId,
-                NumberOfLaps = r.NumberOfLaps,
-                NumberOfStops = r.NumberOfStops,
-                Position = r.Position,
-                Refueling = r.Refueling,
-                TrackState = r.TrackState,
-                TrackWeather = r.TrackWeather,
-                SelectedTyres = new List<Models.TyreCompound>(r.SelectedTyres)
-            };
-            return race;
-        }
+        //private Models.Race RetypeRace(ODataClient.Race r) {
+        //    Models.Race race = new Models.Race {
+        //        Id = r.Id,
+        //        AmountOfOpponents = r.AmountOfOpponents,
+        //        CurrentTyre = r.CurrentTyre,
+        //        Damage = r.Damage,
+        //        LapCount = r.LapCount,
+        //        TerminalDamage = r.TerminalDamage,
+        //        LastRefuelLap = r.LastRefuelLap,
+        //        MandatoryStops = r.MandatoryStops,
+        //        Name = r.Name,
+        //        RaceSeriesId = r.RaceSeriesId,
+        //        NumberOfLaps = r.NumberOfLaps,
+        //        NumberOfStops = r.NumberOfStops,
+        //        Position = r.Position,
+        //        Refueling = r.Refueling,
+        //        TrackState = r.TrackState,
+        //        TrackWeather = r.TrackWeather,
+        //        SelectedTyres = new List<Models.TyreCompound>(r.SelectedTyres)
+        //    };
+        //    return race;
+        //}
     }
 }

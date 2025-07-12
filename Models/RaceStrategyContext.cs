@@ -12,10 +12,7 @@ namespace RaceStrategyApp.Models {
         public DbSet<Models.RaceProgress> RaceProgresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb) {
-            mb.Entity<Models.Race>().Property(p => p.Name).IsRequired().HasMaxLength(100);
-
-            mb.Entity<Models.RaceProgress>().HasAlternateKey(rp => rp.RaceId);
- 
+            mb.Entity<Models.Race>().Property(p => p.Name).HasMaxLength(100);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) {

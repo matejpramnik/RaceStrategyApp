@@ -7,6 +7,6 @@ namespace RaceStrategyApp.Models {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int RaceId { get; set; }
-        public virtual ICollection<Race> RaceSnapshots { get; set; } = new List<Race>();
+        public required virtual Race RaceSnapshot { get; set; }
     }
 }

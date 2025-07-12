@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generation date: 12.7.2025 16:38:50
+// Generation date: 12.7.2025 18:00:57
 namespace RaceStrategyApp.ODataClient
 {
     /// <summary>
