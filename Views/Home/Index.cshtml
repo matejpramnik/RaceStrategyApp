@@ -6,11 +6,29 @@
 <!--   Home index    -->
 
 <div class="text-center">
-    <h1 class="display-4">idk</h1>
+    <div class="my-3 py-3"></div>
+    <h2 class="display-4">Vitajte vo webovej aplikácii na zaznamenávanie pretekov a tvorbu stratégie.</h2>
 
-    <br />
-    <br />
-    <br />
-    <a asp-controller="RaceSeries" asp-action="NewRaceSeries">Nový šampionát</a>
-    <a asp-controller="Race" asp-action="NewRace">Nové preteky</a>
+    <div class="my-5 py-5"></div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-sm-4 col-8 mb-3 mb-sm-0">
+            <form asp-controller="RaceSeries" asp-action="NewRaceSeries">
+                <button type="submit" class="btn btn-primary btn-lg px-4">
+                    Nový šampionát
+                </button>
+            </form>
+        </div>
+        
+
+        <div class="col-sm-4 col-8 mb-3 mb-sm-0">
+            <form asp-controller="Race" asp-action="NewRace">
+                <button type="submit" class="btn btn-primary btn-lg px-4">
+                    Nové preteky
+                </button>
+            </form>
+        </div>
+
+    </div>
 </div>

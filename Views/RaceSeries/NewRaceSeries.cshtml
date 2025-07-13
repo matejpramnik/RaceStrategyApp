@@ -3,19 +3,43 @@
 	ViewData["Title"] = "Race Series";
 }
 
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="race-detail-card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0" style="padding: 0.5rem;"><i class="fa-solid fa-plus-circle me-2"></i>Vytvoriť nový šampionát</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="NewRaceSeries" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Name" class="form-label fw-bold">Názov</label>
+                                    <input asp-for="Name" class="form-control" placeholder="Zadajte názov šampionátu" />
+                                </div>
+                            </div>
 
-<form asp-action="NewRaceSeries" method="post">
-    <div>
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
-    </div>
-    <div>
-        <label asp-for="ParticipantCount"></label>
-        <input asp-for="ParticipantCount" />
-    </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ParticipantCount" class="form-label fw-bold">Počet súťažiacich</label>
+                                    <input asp-for="ParticipantCount" class="form-control" placeholder="Počet súťažiacich" />
+                                </div>
+                            </div>
+                        </div>
 
-    <input type="hidden" asp-for="Races" />
-    <input type="hidden" asp-for="Id" />
-    
-    <button type="submit" onclick="">Uložiť</button>
-</form>
+
+                        <input type="hidden" asp-for="Races" />
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-primary btn-lg px-4">
+                                <i class="fa-solid fa-floppy-disk me-2"></i>Uložiť nový šampionát
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

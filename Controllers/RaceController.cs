@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RaceStrategyApp.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OData.ModelBuilder;
-using RaceStrategyApp.ODataClient;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.OData.Client;
-using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -42,6 +36,7 @@ namespace RaceStrategyApp.Controllers {
                 NumberOfStops = 0,
                 LastRefuelLap = 0,
                 AmountOfOpponents = 0,
+                Name = ""
             };
             race.SelectedTyres.Add(Models.TyreCompound.generic);
 
@@ -51,16 +46,25 @@ namespace RaceStrategyApp.Controllers {
                 .ToList();
             ViewBag.RaceSeriesList = raceSeriesList;
 
-            ViewBag.TrackWeatherList = Enum.GetValues(typeof(Models.Weather))
+            var weatherList = Enum.GetValues(typeof(Models.Weather))
                 .Cast<Models.Weather>()
-                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                .Select(w => new SelectListItem { 
+                    Text = Regex.Replace(w.ToString(), "(\\B[A-Z])", " $1"), 
+                    Value = w.ToString() 
+                })
                 .ToList();
+            ViewBag.TrackWeatherList = weatherList;
 
             return View(race);
         }
 
         [HttpPost]
         public async Task<IActionResult> NewRace(Models.Race race) {
+
+            if (race.Name == null) {
+                race.Name = "";
+            }
+
             var raceSeries = await Cont.RaceSeries.ExecuteAsync();
             var rs = raceSeries.FirstOrDefault(rs => rs.Id == race.RaceSeriesId);
             if (rs != null) {
@@ -95,12 +99,18 @@ namespace RaceStrategyApp.Controllers {
 
                 ViewBag.TrackWeatherList = Enum.GetValues(typeof(Models.Weather))
                             .Cast<Models.Weather>()
-                            .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
+                            .Select(w => new SelectListItem {
+                                Text = Regex.Replace(w.ToString(), "(\\B[A-Z])", " $1"),
+                                Value = w.ToString()
+                            })
                             .ToList();
 
                 ViewBag.TrackStateList = Enum.GetValues(typeof(Models.TrackState))
                     .Cast<Models.TrackState>()
-                    .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
+                    .Select(t => new SelectListItem { 
+                        Text = Regex.Replace(t.ToString(), "(\\B[A-Z])", " $1"), 
+                        Value = t.ToString()
+                    })
                     .ToList();
 
                 ViewBag.TyreList = race.SelectedTyres
@@ -119,14 +129,20 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             ViewBag.TrackWeatherList = Enum.GetValues(typeof(Models.Weather))
-                .Cast<Models.Weather>()
-                .Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString() })
-                .ToList();
+                            .Cast<Models.Weather>()
+                            .Select(w => new SelectListItem {
+                                Text = Regex.Replace(w.ToString(), "(\\B[A-Z])", " $1"),
+                                Value = w.ToString()
+                            })
+                            .ToList();
 
             ViewBag.TrackStateList = Enum.GetValues(typeof(Models.TrackState))
                 .Cast<Models.TrackState>()
-                .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
-            .ToList();
+                .Select(t => new SelectListItem {
+                    Text = Regex.Replace(t.ToString(), "(\\B[A-Z])", " $1"),
+                    Value = t.ToString()
+                })
+                .ToList();
 
             ViewBag.TyreList = race.SelectedTyres
                     .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
@@ -176,7 +192,7 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             race.TrackWeather = trackWeather;
-            int res = FindAndSaveProgress(race, "Počasie", trackWeather.ToString());
+            int res = FindAndSaveProgress(race, "Počasie", Regex.Replace(trackWeather.ToString(), "(\\B[A-Z])", " $1"));
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
@@ -189,7 +205,7 @@ namespace RaceStrategyApp.Controllers {
 
             race.TrackState = trackState;
 
-            int res = FindAndSaveProgress(race, "Stav trate", trackState.ToString());
+            int res = FindAndSaveProgress(race, "Stav trate", Regex.Replace(trackState.ToString(), "(\\B[A-Z])", " $1"));
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
@@ -220,7 +236,7 @@ namespace RaceStrategyApp.Controllers {
                 race.LastRefuelLap = race.LapCount;
             }
 
-            int res = FindAndSaveProgress(race, "Pit stop", newTyre.ToString());
+            int res = FindAndSaveProgress(race, "Pit stop", Regex.Replace(newTyre.ToString(), "(\\B[A-Z])", " $1"));
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
