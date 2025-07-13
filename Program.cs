@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using RaceStrategyApp.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData;
@@ -33,7 +32,7 @@ namespace RaceStrategyApp {
             builder.Services.AddAuthorization(options =>
             {
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAssertion(_ => true) // allow all
+                    .RequireAssertion(_ => true)
                     .Build();
             });
 
@@ -54,7 +53,7 @@ namespace RaceStrategyApp {
 
             app.UseWhen(context => context.Request.Path.Value!.Equals("/api/$metadata", StringComparison.OrdinalIgnoreCase), subApp =>
             {
-                subApp.UseRouting(); // re-run routing pipeline
+                subApp.UseRouting();
                 app.UseAuthorization();
                 subApp.UseEndpoints(endpoints => endpoints.MapControllers().WithMetadata(new AllowAnonymousAttribute()));
             });
@@ -62,12 +61,6 @@ namespace RaceStrategyApp {
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            
-
-
-            
-
 
             app.Run();
         }

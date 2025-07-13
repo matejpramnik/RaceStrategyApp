@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using RaceStrategyApp.Models;
 
 namespace RaceStrategyApp.Controllers {
     public class HomeController : BaseController {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using RaceStrategyApp.Models;
-using System.Diagnostics;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceSeriesController : BaseController {

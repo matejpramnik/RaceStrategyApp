@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RaceStrategyApp.Models;
-using RaceStrategyApp.ODataClient;
 using Default;
 
 namespace RaceStrategyApp.Controllers {
