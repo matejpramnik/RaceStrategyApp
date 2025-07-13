@@ -70,7 +70,6 @@
     margin: 0.15rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .control-group {
         padding: 0.75rem;

@@ -43,12 +43,15 @@
                             <tr><th>Tankovanie</th><td>@(Model.Refueling ? "Áno" : "Nie")</td></tr>
                         </tbody>
                     </table>
-                    <form method="post" asp-controller="Race" asp-action="History" style="padding:1rem;">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" name="History" class="btn btn-primary btn-race">
-                            História
-                        </button>
-                    </form>
+                    @if (raceStarted)
+                    {
+                        <form method="post" asp-controller="Race" asp-action="History" style="padding:1rem;">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" name="History" class="btn btn-primary btn-race">
+                                História
+                            </button>
+                        </form>
+                    }
                 </div>
             </div>
         </div>
@@ -188,6 +191,7 @@
                         </form>
                     </div>
 
+                    <!-- Protivníci -->
                     <div class="control-group">
                         <div class="control-header">
                             Protivníci

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generation date: 12.7.2025 18:00:57
+// Generation date: 13.7.2025 12:21:48
 namespace RaceStrategyApp.ODataClient
 {
     /// <summary>
@@ -738,11 +738,11 @@ namespace RaceStrategyApp.ODataClient
             : base(query) {}
 
         /// <summary>
-        /// There are no comments for RaceSnapshots in the schema.
+        /// There are no comments for Race in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshots")]
-        public virtual global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.Race> RaceSnapshots
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Race")]
+        public virtual global::RaceStrategyApp.ODataClient.RaceSingle Race
         {
             get
             {
@@ -750,15 +750,37 @@ namespace RaceStrategyApp.ODataClient
                 {
                     throw new global::System.NotSupportedException("The previous function is not composable.");
                 }
-                if ((this._RaceSnapshots == null))
+                if ((this._Race == null))
                 {
-                    this._RaceSnapshots = Context.CreateQuery<global::RaceStrategyApp.Models.Race>(GetPath("RaceSnapshots"));
+                    this._Race = new global::RaceStrategyApp.ODataClient.RaceSingle(this.Context, GetPath("Race"));
                 }
-                return this._RaceSnapshots;
+                return this._Race;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.Race> _RaceSnapshots;
+        private global::RaceStrategyApp.ODataClient.RaceSingle _Race;
+        /// <summary>
+        /// There are no comments for RaceSnapshot in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshot")]
+        public virtual global::RaceStrategyApp.ODataClient.RaceSnapshotSingle RaceSnapshot
+        {
+            get
+            {
+                if (!this.IsComposable)
+                {
+                    throw new global::System.NotSupportedException("The previous function is not composable.");
+                }
+                if ((this._RaceSnapshot == null))
+                {
+                    this._RaceSnapshot = new global::RaceStrategyApp.ODataClient.RaceSnapshotSingle(this.Context, GetPath("RaceSnapshot"));
+                }
+                return this._RaceSnapshot;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.ODataClient.RaceSnapshotSingle _RaceSnapshot;
     }
     /// <summary>
     /// There are no comments for RaceProgress in the schema.
@@ -775,12 +797,24 @@ namespace RaceStrategyApp.ODataClient
         /// </summary>
         /// <param name="ID">Initial value of Id.</param>
         /// <param name="raceId">Initial value of RaceId.</param>
+        /// <param name="race">Initial value of Race.</param>
+        /// <param name="raceSnapshot">Initial value of RaceSnapshot.</param>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        public static RaceProgress CreateRaceProgress(int ID, int raceId)
+        public static RaceProgress CreateRaceProgress(int ID, int raceId, global::RaceStrategyApp.Models.Race race, global::RaceStrategyApp.Models.RaceSnapshot raceSnapshot)
         {
             RaceProgress raceProgress = new RaceProgress();
             raceProgress.Id = ID;
             raceProgress.RaceId = raceId;
+            if ((race == null))
+            {
+                throw new global::System.ArgumentNullException("race");
+            }
+            raceProgress.Race = race;
+            if ((raceSnapshot == null))
+            {
+                throw new global::System.ArgumentNullException("raceSnapshot");
+            }
+            raceProgress.RaceSnapshot = raceSnapshot;
             return raceProgress;
         }
         /// <summary>
@@ -832,28 +866,219 @@ namespace RaceStrategyApp.ODataClient
         partial void OnRaceIdChanging(int value);
         partial void OnRaceIdChanged();
         /// <summary>
-        /// There are no comments for Property RaceSnapshots in the schema.
+        /// There are no comments for Property Race in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshots")]
-        public virtual global::Microsoft.OData.Client.DataServiceCollection<global::RaceStrategyApp.Models.Race> RaceSnapshots
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Race")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Race is required.")]
+        public virtual global::RaceStrategyApp.Models.Race Race
         {
             get
             {
-                return this._RaceSnapshots;
+                return this._Race;
             }
             set
             {
-                this.OnRaceSnapshotsChanging(value);
-                this._RaceSnapshots = value;
-                this.OnRaceSnapshotsChanged();
-                this.OnPropertyChanged("RaceSnapshots");
+                this.OnRaceChanging(value);
+                this._Race = value;
+                this.OnRaceChanged();
+                this.OnPropertyChanged("Race");
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private global::Microsoft.OData.Client.DataServiceCollection<global::RaceStrategyApp.Models.Race> _RaceSnapshots = new global::Microsoft.OData.Client.DataServiceCollection<global::RaceStrategyApp.Models.Race>(null, global::Microsoft.OData.Client.TrackingMode.None);
-        partial void OnRaceSnapshotsChanging(global::Microsoft.OData.Client.DataServiceCollection<global::RaceStrategyApp.Models.Race> value);
-        partial void OnRaceSnapshotsChanged();
+        private global::RaceStrategyApp.Models.Race _Race;
+        partial void OnRaceChanging(global::RaceStrategyApp.Models.Race value);
+        partial void OnRaceChanged();
+        /// <summary>
+        /// There are no comments for Property RaceSnapshot in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshot")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "RaceSnapshot is required.")]
+        public virtual global::RaceStrategyApp.Models.RaceSnapshot RaceSnapshot
+        {
+            get
+            {
+                return this._RaceSnapshot;
+            }
+            set
+            {
+                this.OnRaceSnapshotChanging(value);
+                this._RaceSnapshot = value;
+                this.OnRaceSnapshotChanged();
+                this.OnPropertyChanged("RaceSnapshot");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.Models.RaceSnapshot _RaceSnapshot;
+        partial void OnRaceSnapshotChanging(global::RaceStrategyApp.Models.RaceSnapshot value);
+        partial void OnRaceSnapshotChanged();
+        /// <summary>
+        /// This event is raised when the value of the property is changed
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// The value of the property is changed
+        /// </summary>
+        /// <param name="property">property name</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        protected virtual void OnPropertyChanged(string property)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new global::System.ComponentModel.PropertyChangedEventArgs(property));
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for RaceSnapshotSingle in the schema.
+    /// </summary>
+    [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshotSingle")]
+    public partial class RaceSnapshotSingle : global::Microsoft.OData.Client.DataServiceQuerySingle<RaceSnapshot>
+    {
+        /// <summary>
+        /// Initialize a new RaceSnapshotSingle object.
+        /// </summary>
+        public RaceSnapshotSingle(global::Microsoft.OData.Client.DataServiceContext context, string path)
+            : base(context, path) {}
+
+        /// <summary>
+        /// Initialize a new RaceSnapshotSingle object.
+        /// </summary>
+        public RaceSnapshotSingle(global::Microsoft.OData.Client.DataServiceContext context, string path, bool isComposable)
+            : base(context, path, isComposable) {}
+
+        /// <summary>
+        /// Initialize a new RaceSnapshotSingle object.
+        /// </summary>
+        public RaceSnapshotSingle(global::Microsoft.OData.Client.DataServiceQuerySingle<RaceSnapshot> query)
+            : base(query) {}
+
+    }
+    /// <summary>
+    /// There are no comments for RaceSnapshot in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::Microsoft.OData.Client.Key("Id")]
+    [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshot")]
+    public partial class RaceSnapshot : global::Microsoft.OData.Client.BaseEntityType, global::System.ComponentModel.INotifyPropertyChanged
+    {
+        /// <summary>
+        /// Create a new RaceSnapshot object.
+        /// </summary>
+        /// <param name="ID">Initial value of Id.</param>
+        /// <param name="lapCount">Initial value of LapCount.</param>
+        /// <param name="changeName">Initial value of ChangeName.</param>
+        /// <param name="change">Initial value of Change.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        public static RaceSnapshot CreateRaceSnapshot(int ID, int lapCount, string changeName, string change)
+        {
+            RaceSnapshot raceSnapshot = new RaceSnapshot();
+            raceSnapshot.Id = ID;
+            raceSnapshot.LapCount = lapCount;
+            raceSnapshot.ChangeName = changeName;
+            raceSnapshot.Change = change;
+            return raceSnapshot;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Id")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Id is required.")]
+        public virtual int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this._Id = value;
+                this.OnIdChanged();
+                this.OnPropertyChanged("Id");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _Id;
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property LapCount in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("LapCount")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "LapCount is required.")]
+        public virtual int LapCount
+        {
+            get
+            {
+                return this._LapCount;
+            }
+            set
+            {
+                this.OnLapCountChanging(value);
+                this._LapCount = value;
+                this.OnLapCountChanged();
+                this.OnPropertyChanged("LapCount");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _LapCount;
+        partial void OnLapCountChanging(int value);
+        partial void OnLapCountChanged();
+        /// <summary>
+        /// There are no comments for Property ChangeName in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("ChangeName")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "ChangeName is required.")]
+        public virtual string ChangeName
+        {
+            get
+            {
+                return this._ChangeName;
+            }
+            set
+            {
+                this.OnChangeNameChanging(value);
+                this._ChangeName = value;
+                this.OnChangeNameChanged();
+                this.OnPropertyChanged("ChangeName");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private string _ChangeName;
+        partial void OnChangeNameChanging(string value);
+        partial void OnChangeNameChanged();
+        /// <summary>
+        /// There are no comments for Property Change in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Change")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Change is required.")]
+        public virtual string Change
+        {
+            get
+            {
+                return this._Change;
+            }
+            set
+            {
+                this.OnChangeChanging(value);
+                this._Change = value;
+                this.OnChangeChanged();
+                this.OnPropertyChanged("Change");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private string _Change;
+        partial void OnChangeChanging(string value);
+        partial void OnChangeChanged();
         /// <summary>
         /// This event is raised when the value of the property is changed
         /// </summary>
@@ -1002,6 +1227,29 @@ namespace RaceStrategyApp.ODataClient
                 { "Id", id }
             };
             return new global::RaceStrategyApp.ODataClient.RaceProgressSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
+        }
+        /// <summary>
+        /// Get an entity of type global::RaceStrategyApp.Models.RaceSnapshot as global::RaceStrategyApp.Models.RaceSnapshotSingle specified by key from an entity set
+        /// </summary>
+        /// <param name="_source">source entity set</param>
+        /// <param name="_keys">dictionary with the names and values of keys</param>
+        public static global::RaceStrategyApp.ODataClient.RaceSnapshotSingle ByKey(this global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.RaceSnapshot> _source, global::System.Collections.Generic.IDictionary<string, object> _keys)
+        {
+            return new global::RaceStrategyApp.ODataClient.RaceSnapshotSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
+        }
+        /// <summary>
+        /// Get an entity of type global::RaceStrategyApp.Models.RaceSnapshot as global::RaceStrategyApp.Models.RaceSnapshotSingle specified by key from an entity set
+        /// </summary>
+        /// <param name="_source">source entity set</param>
+        /// <param name="id">The value of id</param>
+        public static global::RaceStrategyApp.ODataClient.RaceSnapshotSingle ByKey(this global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.RaceSnapshot> _source,
+            int id)
+        {
+            global::System.Collections.Generic.IDictionary<string, object> _keys = new global::System.Collections.Generic.Dictionary<string, object>
+            {
+                { "Id", id }
+            };
+            return new global::RaceStrategyApp.ODataClient.RaceSnapshotSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
         }
     }
 }

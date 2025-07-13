@@ -38,7 +38,19 @@
         </Key>
         <Property Name="Id" Type="Edm.Int32" Nullable="false" />
         <Property Name="RaceId" Type="Edm.Int32" Nullable="false" />
-        <NavigationProperty Name="RaceSnapshots" Type="Collection(RaceStrategyApp.Models.Race)" />
+        <NavigationProperty Name="Race" Type="RaceStrategyApp.Models.Race" Nullable="false">
+          <ReferentialConstraint Property="RaceId" ReferencedProperty="Id" />
+        </NavigationProperty>
+        <NavigationProperty Name="RaceSnapshot" Type="RaceStrategyApp.Models.RaceSnapshot" Nullable="false" />
+      </EntityType>
+      <EntityType Name="RaceSnapshot">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="LapCount" Type="Edm.Int32" Nullable="false" />
+        <Property Name="ChangeName" Type="Edm.String" Nullable="false" />
+        <Property Name="Change" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EnumType Name="TyreCompound">
         <Member Name="generic" Value="0" />
@@ -72,7 +84,7 @@
           <NavigationPropertyBinding Path="Races" Target="Race" />
         </EntitySet>
         <EntitySet Name="RaceProgress" EntityType="RaceStrategyApp.Models.RaceProgress">
-          <NavigationPropertyBinding Path="RaceSnapshots" Target="Race" />
+          <NavigationPropertyBinding Path="Race" Target="Race" />
         </EntitySet>
       </EntityContainer>
     </Schema>

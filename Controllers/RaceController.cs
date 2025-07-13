@@ -6,6 +6,7 @@ using Microsoft.OData.ModelBuilder;
 using RaceStrategyApp.ODataClient;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.OData.Client;
+using System.Reflection;
 
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
@@ -131,13 +132,17 @@ namespace RaceStrategyApp.Controllers {
                     .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
                     .ToList();
 
-
             var nr = await Cont.RaceProgress.ExecuteAsync();
             var newR = nr.FirstOrDefault(nr => nr.RaceId == id);
             if (newR == null) {
                 Models.RaceProgress newRace = new Models.RaceProgress() {
-                    RaceId = id,
-                    RaceSnapshot = race
+                    Race = race,
+                    RaceId = race.Id,
+                    RaceSnapshot = new Models.RaceSnapshot() {
+                        LapCount = race.LapCount,
+                        ChangeName = "first",
+                        Change = "first"
+                    }
                 };
                 Cont.AddToRaceProgress(newRace);
                 await Cont.SaveChangesAsync();
@@ -155,7 +160,7 @@ namespace RaceStrategyApp.Controllers {
 
             if (race.LapCount + 1 <= race.NumberOfLaps) {
                 race.LapCount++;
-                int res = FindAndSaveProgress(race);
+                int res = FindAndSaveProgress(race, "Kolo", race.LapCount.ToString());
                 if (res == -1) return NotFound();
             }
             else {
@@ -171,7 +176,7 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             race.TrackWeather = trackWeather;
-            int res = FindAndSaveProgress(race);
+            int res = FindAndSaveProgress(race, "Počasie", trackWeather.ToString());
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
@@ -184,7 +189,7 @@ namespace RaceStrategyApp.Controllers {
 
             race.TrackState = trackState;
 
-            int res = FindAndSaveProgress(race);
+            int res = FindAndSaveProgress(race, "Stav trate", trackState.ToString());
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
@@ -197,7 +202,7 @@ namespace RaceStrategyApp.Controllers {
 
             if (race.Position + newPos >= 1) {
                 race.Position += newPos;
-                int res = FindAndSaveProgress(race);
+                int res = FindAndSaveProgress(race, "Pozícia", race.Position.ToString());
                 if (res == -1) return NotFound();
             }
 
@@ -215,7 +220,7 @@ namespace RaceStrategyApp.Controllers {
                 race.LastRefuelLap = race.LapCount;
             }
 
-            int res = FindAndSaveProgress(race);
+            int res = FindAndSaveProgress(race, "Pit stop", newTyre.ToString());
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
@@ -227,7 +232,7 @@ namespace RaceStrategyApp.Controllers {
             if (race == null) return NotFound();
 
             race.AmountOfOpponents--;
-            int res = FindAndSaveProgress(race);
+            int res = FindAndSaveProgress(race, "Počet Protivníkov", race.AmountOfOpponents.ToString());
             if (res == -1) return NotFound();
 
             return RedirectToAction("Race", "Race", new { id = race.Id });
@@ -239,13 +244,25 @@ namespace RaceStrategyApp.Controllers {
             var raceProgresses = Ctx.RaceProgresses.Where(rp => rp.RaceId == id).ToList();
             if (raceProgresses == null) return NotFound();
 
-            return View(raceProgresses);
+            List<Models.RaceProgress> retval = new();
+            foreach (var raceProg in raceProgresses) {
+                if (raceProg.RaceSnapshot.ChangeName != "" && raceProg.RaceSnapshot.ChangeName != "Kolo") {
+                    retval.Add(raceProg);
+                }
+            }
+
+            return View(retval);
         }
 
-        private int FindAndSaveProgress(Models.Race race) {
+        private int FindAndSaveProgress(Models.Race race, string changeName, string change) {
             var newRace = new Models.RaceProgress() {
+                Race = race,
                 RaceId = race.Id,
-                RaceSnapshot = race
+                RaceSnapshot = new Models.RaceSnapshot() {
+                    LapCount = race.LapCount,
+                    ChangeName = changeName,
+                    Change = change
+                }
             };
             Ctx.RaceProgresses.Add(newRace);
             Ctx.SaveChanges();

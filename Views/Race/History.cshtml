@@ -2,4 +2,65 @@
 @{
     ViewData["Title"] = "Race";
 }
-<div>@Model[0].RaceSnapshot.Name</div>
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    .center-screen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .race-container {
+        max-width: 1000px;
+        max-height: 780px;
+        width: 100%;
+    }
+    .race-detail-table th {
+        background-color: #f8f9fa;
+        width: auto;
+        vertical-align: middle;
+        margin-inline: 4px;
+    }
+    table {
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    tr {
+        border: solid;
+        border-width: 1px 0;
+        border-color: #999999;
+    }
+    tr:first-child {
+        border-top: none;
+    }
+    tr:last-child {
+        border-bottom: none;
+    }
+</style>
+
+<div class="center-screen">
+    <div class="race-container text-center">
+        <table class="table table-striped mx-auto" style="width: 50%;">
+            <thead>
+                <tr>
+                    <th class="card-header bg-primary text-white">Kolo</th>
+                    <th class="card-header bg-primary text-white">Udalosť</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rp in Model) {
+                    <tr>
+                        <td>@rp.RaceSnapshot.LapCount</td>
+                        <td>@rp.RaceSnapshot.ChangeName → @rp.RaceSnapshot.Change</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

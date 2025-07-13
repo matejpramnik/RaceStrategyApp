@@ -10,8 +10,8 @@ using RaceStrategyApp.Models;
 namespace RaceStrategyApp.Migrations
 {
     [DbContext(typeof(RaceStrategyContext))]
-    [Migration("20250712164224_RaceProgressModelUpdate2")]
-    partial class RaceProgressModelUpdate2
+    [Migration("20250713102307_RaceProgress")]
+    partial class RaceProgress
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,9 +96,12 @@ namespace RaceStrategyApp.Migrations
                     b.Property<int>("RaceId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("RaceSnapshotId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("RaceId");
+                    b.HasIndex("RaceSnapshotId");
 
                     b.ToTable("RaceProgresses");
                 });
@@ -121,6 +124,28 @@ namespace RaceStrategyApp.Migrations
                     b.ToTable("RaceSeries");
                 });
 
+            modelBuilder.Entity("RaceStrategyApp.Models.RaceSnapshot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Change")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChangeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LapCount")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RaceSnapshots");
+                });
+
             modelBuilder.Entity("RaceStrategyApp.Models.Race", b =>
                 {
                     b.HasOne("RaceStrategyApp.Models.RaceSeries", null)
@@ -132,9 +157,9 @@ namespace RaceStrategyApp.Migrations
 
             modelBuilder.Entity("RaceStrategyApp.Models.RaceProgress", b =>
                 {
-                    b.HasOne("RaceStrategyApp.Models.Race", "RaceSnapshot")
+                    b.HasOne("RaceStrategyApp.Models.RaceSnapshot", "RaceSnapshot")
                         .WithMany()
-                        .HasForeignKey("RaceId")
+                        .HasForeignKey("RaceSnapshotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
