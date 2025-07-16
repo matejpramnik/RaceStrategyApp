@@ -5,15 +5,20 @@ using System.Text.RegularExpressions;
 namespace RaceStrategyApp.Controllers {
     public class RaceController : BaseController {
 
-        public async virtual Task<IActionResult> All() {
-            var races = await Cont.Race.ExecuteAsync();
-            List<Models.Race> retval = new List<Models.Race>();
+        public async virtual Task<IActionResult> All() {;
+            try {
+                var races = await Cont.Race.ExecuteAsync();
+                List<Models.Race> retval = new List<Models.Race>();
 
-            foreach (var race in races) {
-                retval.Add(race);
+                foreach (var race in races) {
+                    retval.Add(race);
+                }
+                return View(retval);
             }
-
-            return View(retval);
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+                return View();
+            }
         }
 
         [HttpPost]
@@ -29,16 +34,23 @@ namespace RaceStrategyApp.Controllers {
 
         public async Task<IActionResult> NewRace() {
             var race = new Models.Race() {
-                TrackState = Models.TrackState.green,
                 Damage = false,
                 TerminalDamage = false,
                 LapCount = 0,
-                NumberOfStops = 0,
-                LastRefuelLap = 0,
                 AmountOfOpponents = 0,
-                Name = ""
+                Name = "",
+                PitStop = new() {
+                    NumberOfStops = 0,
+                    LastRefuelLap = 0,
+                },
+                TrackInfo = new() {
+                    TrackState = Models.TrackState.green
+                }
             };
-            race.SelectedTyres.Add(Models.TyreCompound.generic);
+
+            race.PitStop.RaceId = race.Id;
+            race.TrackInfo.RaceId = race.Id;
+            race.PitStop.SelectedTyres.Add(Models.TyreCompound.generic);
 
             var series = await Cont.RaceSeries.ExecuteAsync();
             var raceSeriesList = series
@@ -60,19 +72,28 @@ namespace RaceStrategyApp.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> NewRace(Models.Race race) {
-
+            
             if (race.Name == null) {
                 race.Name = "";
             }
 
-            var raceSeries = await Cont.RaceSeries.ExecuteAsync();
-            var rs = raceSeries.FirstOrDefault(rs => rs.Id == race.RaceSeriesId);
-            if (rs != null) {
-                race.AmountOfOpponents = rs.ParticipantCount - 1;
+            try {
+                var raceSeries = await Cont.RaceSeries.ExecuteAsync();
+                var rs = raceSeries.FirstOrDefault(rs => rs.Id == race.RaceSeriesId);
+                if (rs != null) {
+                    race.AmountOfOpponents = rs.ParticipantCount - 1;
+                }
             }
-            race.CurrentTyre = race.SelectedTyres[0];
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+            }
+
+            race.PitStop.CurrentTyre = race.PitStop.SelectedTyres[0];
 
             if (ModelState.IsValid) {
+                Console.WriteLine(race.PitStop.SelectedTyres[1].ToString());
+                //race.PitStop.RaceId = race.Id;
+                //race.TrackInfo.RaceId = race.Id;
                 Cont.AddToRace(race);
                 await Cont.SaveChangesAsync();
 
@@ -89,13 +110,14 @@ namespace RaceStrategyApp.Controllers {
             var race = races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
+
+            ViewData["LapCount++?"] = false;
             if (Ctx.RaceProgresses.Any(rp => rp.RaceId == id) == true) {
                 ViewData["RaceStarted"] = true;
 
                 if (race.LapCount + 1 <= race.NumberOfLaps) {
                     ViewData["LapCount++?"] = true;
                 }
-                else ViewData["LapCount++?"] = false;
 
                 ViewBag.TrackWeatherList = Enum.GetValues(typeof(Models.Weather))
                             .Cast<Models.Weather>()
@@ -113,7 +135,7 @@ namespace RaceStrategyApp.Controllers {
                     })
                     .ToList();
 
-                ViewBag.TyreList = race.SelectedTyres
+                ViewBag.TyreList = race.PitStop.SelectedTyres
                     .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
                     .ToList();
             }
@@ -144,7 +166,7 @@ namespace RaceStrategyApp.Controllers {
                 })
                 .ToList();
 
-            ViewBag.TyreList = race.SelectedTyres
+            ViewBag.TyreList = race.PitStop.SelectedTyres
                     .Select(t => new SelectListItem { Text = t.ToString(), Value = t.ToString() })
                     .ToList();
 
@@ -191,7 +213,7 @@ namespace RaceStrategyApp.Controllers {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
-            race.TrackWeather = trackWeather;
+            race.TrackInfo.TrackWeather = trackWeather;
             int res = FindAndSaveProgress(race, "Počasie", Regex.Replace(trackWeather.ToString(), "(\\B[A-Z])", " $1"));
             if (res == -1) return NotFound();
 
@@ -203,7 +225,7 @@ namespace RaceStrategyApp.Controllers {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
-            race.TrackState = trackState;
+            race.TrackInfo.TrackState = trackState;
 
             int res = FindAndSaveProgress(race, "Stav trate", Regex.Replace(trackState.ToString(), "(\\B[A-Z])", " $1"));
             if (res == -1) return NotFound();
@@ -230,10 +252,10 @@ namespace RaceStrategyApp.Controllers {
             var race = Ctx.Races.FirstOrDefault(r => r.Id == id);
             if (race == null) return NotFound();
 
-            race.CurrentTyre = newTyre;
-            race.NumberOfStops++;
+            race.PitStop.CurrentTyre = newTyre;
+            race.PitStop.NumberOfStops++;
             if (refueling) {
-                race.LastRefuelLap = race.LapCount;
+                race.PitStop.LastRefuelLap = race.LapCount;
             }
 
             int res = FindAndSaveProgress(race, "Pit stop", Regex.Replace(newTyre.ToString(), "(\\B[A-Z])", " $1"));

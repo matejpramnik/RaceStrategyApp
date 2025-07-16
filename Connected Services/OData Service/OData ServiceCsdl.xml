@@ -9,19 +9,13 @@
         <Property Name="Name" Type="Edm.String" Nullable="false" />
         <Property Name="NumberOfLaps" Type="Edm.Int32" Nullable="false" />
         <Property Name="LapCount" Type="Edm.Int32" Nullable="false" />
-        <Property Name="MandatoryStops" Type="Edm.Int32" Nullable="false" />
-        <Property Name="NumberOfStops" Type="Edm.Int32" Nullable="false" />
-        <Property Name="Refueling" Type="Edm.Boolean" Nullable="false" />
-        <Property Name="LastRefuelLap" Type="Edm.Int32" Nullable="false" />
         <Property Name="Position" Type="Edm.Int32" Nullable="false" />
         <Property Name="AmountOfOpponents" Type="Edm.Int32" Nullable="false" />
-        <Property Name="SelectedTyres" Type="Collection(RaceStrategyApp.Models.TyreCompound)" Nullable="false" />
-        <Property Name="CurrentTyre" Type="RaceStrategyApp.Models.TyreCompound" Nullable="false" />
-        <Property Name="TrackState" Type="RaceStrategyApp.Models.TrackState" Nullable="false" />
         <Property Name="Damage" Type="Edm.Boolean" Nullable="false" />
         <Property Name="TerminalDamage" Type="Edm.Boolean" Nullable="false" />
-        <Property Name="TrackWeather" Type="RaceStrategyApp.Models.Weather" Nullable="false" />
         <Property Name="RaceSeriesId" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="PitStop" Type="RaceStrategyApp.Models.PitStop" Nullable="false" />
+        <NavigationProperty Name="TrackInfo" Type="RaceStrategyApp.Models.TrackInfo" Nullable="false" />
       </EntityType>
       <EntityType Name="RaceSeries">
         <Key>
@@ -43,6 +37,28 @@
         </NavigationProperty>
         <NavigationProperty Name="RaceSnapshot" Type="RaceStrategyApp.Models.RaceSnapshot" Nullable="false" />
       </EntityType>
+      <EntityType Name="PitStop">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="RaceId" Type="Edm.Int32" Nullable="false" />
+        <Property Name="MandatoryStops" Type="Edm.Int32" Nullable="false" />
+        <Property Name="NumberOfStops" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Refueling" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="LastRefuelLap" Type="Edm.Int32" Nullable="false" />
+        <Property Name="SelectedTyres" Type="Collection(RaceStrategyApp.Models.TyreCompound)" Nullable="false" />
+        <Property Name="CurrentTyre" Type="RaceStrategyApp.Models.TyreCompound" Nullable="false" />
+      </EntityType>
+      <EntityType Name="TrackInfo">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="RaceId" Type="Edm.Int32" Nullable="false" />
+        <Property Name="TrackWeather" Type="RaceStrategyApp.Models.Weather" Nullable="false" />
+        <Property Name="TrackState" Type="RaceStrategyApp.Models.TrackState" Nullable="false" />
+      </EntityType>
       <EntityType Name="RaceSnapshot">
         <Key>
           <PropertyRef Name="Id" />
@@ -62,19 +78,19 @@
         <Member Name="intermediate" Value="6" />
         <Member Name="wet" Value="7" />
       </EnumType>
-      <EnumType Name="TrackState">
-        <Member Name="green" Value="0" />
-        <Member Name="FCY" Value="1" />
-        <Member Name="SC" Value="2" />
-        <Member Name="localYellow" Value="3" />
-        <Member Name="red" Value="4" />
-      </EnumType>
       <EnumType Name="Weather">
         <Member Name="dry" Value="0" />
         <Member Name="damp" Value="1" />
         <Member Name="intermediate" Value="2" />
         <Member Name="wet" Value="3" />
         <Member Name="heavyWet" Value="4" />
+      </EnumType>
+      <EnumType Name="TrackState">
+        <Member Name="green" Value="0" />
+        <Member Name="FCY" Value="1" />
+        <Member Name="SC" Value="2" />
+        <Member Name="localYellow" Value="3" />
+        <Member Name="red" Value="4" />
       </EnumType>
     </Schema>
     <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">

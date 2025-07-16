@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generation date: 13.7.2025 12:21:48
+// Generation date: 16.7.2025 21:36:10
 namespace RaceStrategyApp.ODataClient
 {
     /// <summary>
@@ -35,6 +35,50 @@ namespace RaceStrategyApp.ODataClient
         public RaceSingle(global::Microsoft.OData.Client.DataServiceQuerySingle<Race> query)
             : base(query) {}
 
+        /// <summary>
+        /// There are no comments for PitStop in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("PitStop")]
+        public virtual global::RaceStrategyApp.ODataClient.PitStopSingle PitStop
+        {
+            get
+            {
+                if (!this.IsComposable)
+                {
+                    throw new global::System.NotSupportedException("The previous function is not composable.");
+                }
+                if ((this._PitStop == null))
+                {
+                    this._PitStop = new global::RaceStrategyApp.ODataClient.PitStopSingle(this.Context, GetPath("PitStop"));
+                }
+                return this._PitStop;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.ODataClient.PitStopSingle _PitStop;
+        /// <summary>
+        /// There are no comments for TrackInfo in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("TrackInfo")]
+        public virtual global::RaceStrategyApp.ODataClient.TrackInfoSingle TrackInfo
+        {
+            get
+            {
+                if (!this.IsComposable)
+                {
+                    throw new global::System.NotSupportedException("The previous function is not composable.");
+                }
+                if ((this._TrackInfo == null))
+                {
+                    this._TrackInfo = new global::RaceStrategyApp.ODataClient.TrackInfoSingle(this.Context, GetPath("TrackInfo"));
+                }
+                return this._TrackInfo;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.ODataClient.TrackInfoSingle _TrackInfo;
     }
     /// <summary>
     /// There are no comments for Race in the schema.
@@ -53,53 +97,46 @@ namespace RaceStrategyApp.ODataClient
         /// <param name="name">Initial value of Name.</param>
         /// <param name="numberOfLaps">Initial value of NumberOfLaps.</param>
         /// <param name="lapCount">Initial value of LapCount.</param>
-        /// <param name="mandatoryStops">Initial value of MandatoryStops.</param>
-        /// <param name="numberOfStops">Initial value of NumberOfStops.</param>
-        /// <param name="refueling">Initial value of Refueling.</param>
-        /// <param name="lastRefuelLap">Initial value of LastRefuelLap.</param>
         /// <param name="position">Initial value of Position.</param>
         /// <param name="amountOfOpponents">Initial value of AmountOfOpponents.</param>
-        /// <param name="currentTyre">Initial value of CurrentTyre.</param>
-        /// <param name="trackState">Initial value of TrackState.</param>
         /// <param name="damage">Initial value of Damage.</param>
         /// <param name="terminalDamage">Initial value of TerminalDamage.</param>
-        /// <param name="trackWeather">Initial value of TrackWeather.</param>
         /// <param name="raceSeriesId">Initial value of RaceSeriesId.</param>
+        /// <param name="pitStop">Initial value of PitStop.</param>
+        /// <param name="trackInfo">Initial value of TrackInfo.</param>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
         public static Race CreateRace(int ID, 
                     string name, 
                     int numberOfLaps, 
                     int lapCount, 
-                    int mandatoryStops, 
-                    int numberOfStops, 
-                    bool refueling, 
-                    int lastRefuelLap, 
                     int position, 
                     int amountOfOpponents, 
-                    global::RaceStrategyApp.Models.TyreCompound currentTyre, 
-                    global::RaceStrategyApp.Models.TrackState trackState, 
                     bool damage, 
                     bool terminalDamage, 
-                    global::RaceStrategyApp.Models.Weather trackWeather, 
-                    int raceSeriesId)
+                    int raceSeriesId, 
+                    global::RaceStrategyApp.Models.PitStop pitStop, 
+                    global::RaceStrategyApp.Models.TrackInfo trackInfo)
         {
             Race race = new Race();
             race.Id = ID;
             race.Name = name;
             race.NumberOfLaps = numberOfLaps;
             race.LapCount = lapCount;
-            race.MandatoryStops = mandatoryStops;
-            race.NumberOfStops = numberOfStops;
-            race.Refueling = refueling;
-            race.LastRefuelLap = lastRefuelLap;
             race.Position = position;
             race.AmountOfOpponents = amountOfOpponents;
-            race.CurrentTyre = currentTyre;
-            race.TrackState = trackState;
             race.Damage = damage;
             race.TerminalDamage = terminalDamage;
-            race.TrackWeather = trackWeather;
             race.RaceSeriesId = raceSeriesId;
+            if ((pitStop == null))
+            {
+                throw new global::System.ArgumentNullException("pitStop");
+            }
+            race.PitStop = pitStop;
+            if ((trackInfo == null))
+            {
+                throw new global::System.ArgumentNullException("trackInfo");
+            }
+            race.TrackInfo = trackInfo;
             return race;
         }
         /// <summary>
@@ -199,102 +236,6 @@ namespace RaceStrategyApp.ODataClient
         partial void OnLapCountChanging(int value);
         partial void OnLapCountChanged();
         /// <summary>
-        /// There are no comments for Property MandatoryStops in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("MandatoryStops")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "MandatoryStops is required.")]
-        public virtual int MandatoryStops
-        {
-            get
-            {
-                return this._MandatoryStops;
-            }
-            set
-            {
-                this.OnMandatoryStopsChanging(value);
-                this._MandatoryStops = value;
-                this.OnMandatoryStopsChanged();
-                this.OnPropertyChanged("MandatoryStops");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private int _MandatoryStops;
-        partial void OnMandatoryStopsChanging(int value);
-        partial void OnMandatoryStopsChanged();
-        /// <summary>
-        /// There are no comments for Property NumberOfStops in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("NumberOfStops")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "NumberOfStops is required.")]
-        public virtual int NumberOfStops
-        {
-            get
-            {
-                return this._NumberOfStops;
-            }
-            set
-            {
-                this.OnNumberOfStopsChanging(value);
-                this._NumberOfStops = value;
-                this.OnNumberOfStopsChanged();
-                this.OnPropertyChanged("NumberOfStops");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private int _NumberOfStops;
-        partial void OnNumberOfStopsChanging(int value);
-        partial void OnNumberOfStopsChanged();
-        /// <summary>
-        /// There are no comments for Property Refueling in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("Refueling")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Refueling is required.")]
-        public virtual bool Refueling
-        {
-            get
-            {
-                return this._Refueling;
-            }
-            set
-            {
-                this.OnRefuelingChanging(value);
-                this._Refueling = value;
-                this.OnRefuelingChanged();
-                this.OnPropertyChanged("Refueling");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private bool _Refueling;
-        partial void OnRefuelingChanging(bool value);
-        partial void OnRefuelingChanged();
-        /// <summary>
-        /// There are no comments for Property LastRefuelLap in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("LastRefuelLap")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "LastRefuelLap is required.")]
-        public virtual int LastRefuelLap
-        {
-            get
-            {
-                return this._LastRefuelLap;
-            }
-            set
-            {
-                this.OnLastRefuelLapChanging(value);
-                this._LastRefuelLap = value;
-                this.OnLastRefuelLapChanged();
-                this.OnPropertyChanged("LastRefuelLap");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private int _LastRefuelLap;
-        partial void OnLastRefuelLapChanging(int value);
-        partial void OnLastRefuelLapChanged();
-        /// <summary>
         /// There are no comments for Property Position in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
@@ -342,78 +283,6 @@ namespace RaceStrategyApp.ODataClient
         private int _AmountOfOpponents;
         partial void OnAmountOfOpponentsChanging(int value);
         partial void OnAmountOfOpponentsChanged();
-        /// <summary>
-        /// There are no comments for Property SelectedTyres in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("SelectedTyres")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "SelectedTyres is required.")]
-        public virtual global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound> SelectedTyres
-        {
-            get
-            {
-                return this._SelectedTyres;
-            }
-            set
-            {
-                this.OnSelectedTyresChanging(value);
-                this._SelectedTyres = value;
-                this.OnSelectedTyresChanged();
-                this.OnPropertyChanged("SelectedTyres");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound> _SelectedTyres = new global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound>();
-        partial void OnSelectedTyresChanging(global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound> value);
-        partial void OnSelectedTyresChanged();
-        /// <summary>
-        /// There are no comments for Property CurrentTyre in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("CurrentTyre")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "CurrentTyre is required.")]
-        public virtual global::RaceStrategyApp.Models.TyreCompound CurrentTyre
-        {
-            get
-            {
-                return this._CurrentTyre;
-            }
-            set
-            {
-                this.OnCurrentTyreChanging(value);
-                this._CurrentTyre = value;
-                this.OnCurrentTyreChanged();
-                this.OnPropertyChanged("CurrentTyre");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private global::RaceStrategyApp.Models.TyreCompound _CurrentTyre;
-        partial void OnCurrentTyreChanging(global::RaceStrategyApp.Models.TyreCompound value);
-        partial void OnCurrentTyreChanged();
-        /// <summary>
-        /// There are no comments for Property TrackState in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("TrackState")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "TrackState is required.")]
-        public virtual global::RaceStrategyApp.Models.TrackState TrackState
-        {
-            get
-            {
-                return this._TrackState;
-            }
-            set
-            {
-                this.OnTrackStateChanging(value);
-                this._TrackState = value;
-                this.OnTrackStateChanged();
-                this.OnPropertyChanged("TrackState");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private global::RaceStrategyApp.Models.TrackState _TrackState;
-        partial void OnTrackStateChanging(global::RaceStrategyApp.Models.TrackState value);
-        partial void OnTrackStateChanged();
         /// <summary>
         /// There are no comments for Property Damage in the schema.
         /// </summary>
@@ -463,30 +332,6 @@ namespace RaceStrategyApp.ODataClient
         partial void OnTerminalDamageChanging(bool value);
         partial void OnTerminalDamageChanged();
         /// <summary>
-        /// There are no comments for Property TrackWeather in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        [global::Microsoft.OData.Client.OriginalNameAttribute("TrackWeather")]
-        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "TrackWeather is required.")]
-        public virtual global::RaceStrategyApp.Models.Weather TrackWeather
-        {
-            get
-            {
-                return this._TrackWeather;
-            }
-            set
-            {
-                this.OnTrackWeatherChanging(value);
-                this._TrackWeather = value;
-                this.OnTrackWeatherChanged();
-                this.OnPropertyChanged("TrackWeather");
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
-        private global::RaceStrategyApp.Models.Weather _TrackWeather;
-        partial void OnTrackWeatherChanging(global::RaceStrategyApp.Models.Weather value);
-        partial void OnTrackWeatherChanged();
-        /// <summary>
         /// There are no comments for Property RaceSeriesId in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
@@ -510,6 +355,54 @@ namespace RaceStrategyApp.ODataClient
         private int _RaceSeriesId;
         partial void OnRaceSeriesIdChanging(int value);
         partial void OnRaceSeriesIdChanged();
+        /// <summary>
+        /// There are no comments for Property PitStop in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("PitStop")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "PitStop is required.")]
+        public virtual global::RaceStrategyApp.Models.PitStop PitStop
+        {
+            get
+            {
+                return this._PitStop;
+            }
+            set
+            {
+                this.OnPitStopChanging(value);
+                this._PitStop = value;
+                this.OnPitStopChanged();
+                this.OnPropertyChanged("PitStop");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.Models.PitStop _PitStop;
+        partial void OnPitStopChanging(global::RaceStrategyApp.Models.PitStop value);
+        partial void OnPitStopChanged();
+        /// <summary>
+        /// There are no comments for Property TrackInfo in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("TrackInfo")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "TrackInfo is required.")]
+        public virtual global::RaceStrategyApp.Models.TrackInfo TrackInfo
+        {
+            get
+            {
+                return this._TrackInfo;
+            }
+            set
+            {
+                this.OnTrackInfoChanging(value);
+                this._TrackInfo = value;
+                this.OnTrackInfoChanged();
+                this.OnPropertyChanged("TrackInfo");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.Models.TrackInfo _TrackInfo;
+        partial void OnTrackInfoChanging(global::RaceStrategyApp.Models.TrackInfo value);
+        partial void OnTrackInfoChanged();
         /// <summary>
         /// This event is raised when the value of the property is changed
         /// </summary>
@@ -932,6 +825,446 @@ namespace RaceStrategyApp.ODataClient
         }
     }
     /// <summary>
+    /// There are no comments for PitStopSingle in the schema.
+    /// </summary>
+    [global::Microsoft.OData.Client.OriginalNameAttribute("PitStopSingle")]
+    public partial class PitStopSingle : global::Microsoft.OData.Client.DataServiceQuerySingle<PitStop>
+    {
+        /// <summary>
+        /// Initialize a new PitStopSingle object.
+        /// </summary>
+        public PitStopSingle(global::Microsoft.OData.Client.DataServiceContext context, string path)
+            : base(context, path) {}
+
+        /// <summary>
+        /// Initialize a new PitStopSingle object.
+        /// </summary>
+        public PitStopSingle(global::Microsoft.OData.Client.DataServiceContext context, string path, bool isComposable)
+            : base(context, path, isComposable) {}
+
+        /// <summary>
+        /// Initialize a new PitStopSingle object.
+        /// </summary>
+        public PitStopSingle(global::Microsoft.OData.Client.DataServiceQuerySingle<PitStop> query)
+            : base(query) {}
+
+    }
+    /// <summary>
+    /// There are no comments for PitStop in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::Microsoft.OData.Client.Key("Id")]
+    [global::Microsoft.OData.Client.OriginalNameAttribute("PitStop")]
+    public partial class PitStop : global::Microsoft.OData.Client.BaseEntityType, global::System.ComponentModel.INotifyPropertyChanged
+    {
+        /// <summary>
+        /// Create a new PitStop object.
+        /// </summary>
+        /// <param name="ID">Initial value of Id.</param>
+        /// <param name="raceId">Initial value of RaceId.</param>
+        /// <param name="mandatoryStops">Initial value of MandatoryStops.</param>
+        /// <param name="numberOfStops">Initial value of NumberOfStops.</param>
+        /// <param name="refueling">Initial value of Refueling.</param>
+        /// <param name="lastRefuelLap">Initial value of LastRefuelLap.</param>
+        /// <param name="currentTyre">Initial value of CurrentTyre.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        public static PitStop CreatePitStop(int ID, 
+                    int raceId, 
+                    int mandatoryStops, 
+                    int numberOfStops, 
+                    bool refueling, 
+                    int lastRefuelLap, 
+                    global::RaceStrategyApp.Models.TyreCompound currentTyre)
+        {
+            PitStop pitStop = new PitStop();
+            pitStop.Id = ID;
+            pitStop.RaceId = raceId;
+            pitStop.MandatoryStops = mandatoryStops;
+            pitStop.NumberOfStops = numberOfStops;
+            pitStop.Refueling = refueling;
+            pitStop.LastRefuelLap = lastRefuelLap;
+            pitStop.CurrentTyre = currentTyre;
+            return pitStop;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Id")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Id is required.")]
+        public virtual int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this._Id = value;
+                this.OnIdChanged();
+                this.OnPropertyChanged("Id");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _Id;
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property RaceId in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("RaceId")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "RaceId is required.")]
+        public virtual int RaceId
+        {
+            get
+            {
+                return this._RaceId;
+            }
+            set
+            {
+                this.OnRaceIdChanging(value);
+                this._RaceId = value;
+                this.OnRaceIdChanged();
+                this.OnPropertyChanged("RaceId");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _RaceId;
+        partial void OnRaceIdChanging(int value);
+        partial void OnRaceIdChanged();
+        /// <summary>
+        /// There are no comments for Property MandatoryStops in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("MandatoryStops")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "MandatoryStops is required.")]
+        public virtual int MandatoryStops
+        {
+            get
+            {
+                return this._MandatoryStops;
+            }
+            set
+            {
+                this.OnMandatoryStopsChanging(value);
+                this._MandatoryStops = value;
+                this.OnMandatoryStopsChanged();
+                this.OnPropertyChanged("MandatoryStops");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _MandatoryStops;
+        partial void OnMandatoryStopsChanging(int value);
+        partial void OnMandatoryStopsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfStops in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("NumberOfStops")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "NumberOfStops is required.")]
+        public virtual int NumberOfStops
+        {
+            get
+            {
+                return this._NumberOfStops;
+            }
+            set
+            {
+                this.OnNumberOfStopsChanging(value);
+                this._NumberOfStops = value;
+                this.OnNumberOfStopsChanged();
+                this.OnPropertyChanged("NumberOfStops");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _NumberOfStops;
+        partial void OnNumberOfStopsChanging(int value);
+        partial void OnNumberOfStopsChanged();
+        /// <summary>
+        /// There are no comments for Property Refueling in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Refueling")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Refueling is required.")]
+        public virtual bool Refueling
+        {
+            get
+            {
+                return this._Refueling;
+            }
+            set
+            {
+                this.OnRefuelingChanging(value);
+                this._Refueling = value;
+                this.OnRefuelingChanged();
+                this.OnPropertyChanged("Refueling");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private bool _Refueling;
+        partial void OnRefuelingChanging(bool value);
+        partial void OnRefuelingChanged();
+        /// <summary>
+        /// There are no comments for Property LastRefuelLap in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("LastRefuelLap")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "LastRefuelLap is required.")]
+        public virtual int LastRefuelLap
+        {
+            get
+            {
+                return this._LastRefuelLap;
+            }
+            set
+            {
+                this.OnLastRefuelLapChanging(value);
+                this._LastRefuelLap = value;
+                this.OnLastRefuelLapChanged();
+                this.OnPropertyChanged("LastRefuelLap");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _LastRefuelLap;
+        partial void OnLastRefuelLapChanging(int value);
+        partial void OnLastRefuelLapChanged();
+        /// <summary>
+        /// There are no comments for Property SelectedTyres in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("SelectedTyres")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "SelectedTyres is required.")]
+        public virtual global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound> SelectedTyres
+        {
+            get
+            {
+                return this._SelectedTyres;
+            }
+            set
+            {
+                this.OnSelectedTyresChanging(value);
+                this._SelectedTyres = value;
+                this.OnSelectedTyresChanged();
+                this.OnPropertyChanged("SelectedTyres");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound> _SelectedTyres = new global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound>();
+        partial void OnSelectedTyresChanging(global::System.Collections.ObjectModel.ObservableCollection<global::RaceStrategyApp.Models.TyreCompound> value);
+        partial void OnSelectedTyresChanged();
+        /// <summary>
+        /// There are no comments for Property CurrentTyre in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("CurrentTyre")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "CurrentTyre is required.")]
+        public virtual global::RaceStrategyApp.Models.TyreCompound CurrentTyre
+        {
+            get
+            {
+                return this._CurrentTyre;
+            }
+            set
+            {
+                this.OnCurrentTyreChanging(value);
+                this._CurrentTyre = value;
+                this.OnCurrentTyreChanged();
+                this.OnPropertyChanged("CurrentTyre");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.Models.TyreCompound _CurrentTyre;
+        partial void OnCurrentTyreChanging(global::RaceStrategyApp.Models.TyreCompound value);
+        partial void OnCurrentTyreChanged();
+        /// <summary>
+        /// This event is raised when the value of the property is changed
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// The value of the property is changed
+        /// </summary>
+        /// <param name="property">property name</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        protected virtual void OnPropertyChanged(string property)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new global::System.ComponentModel.PropertyChangedEventArgs(property));
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for TrackInfoSingle in the schema.
+    /// </summary>
+    [global::Microsoft.OData.Client.OriginalNameAttribute("TrackInfoSingle")]
+    public partial class TrackInfoSingle : global::Microsoft.OData.Client.DataServiceQuerySingle<TrackInfo>
+    {
+        /// <summary>
+        /// Initialize a new TrackInfoSingle object.
+        /// </summary>
+        public TrackInfoSingle(global::Microsoft.OData.Client.DataServiceContext context, string path)
+            : base(context, path) {}
+
+        /// <summary>
+        /// Initialize a new TrackInfoSingle object.
+        /// </summary>
+        public TrackInfoSingle(global::Microsoft.OData.Client.DataServiceContext context, string path, bool isComposable)
+            : base(context, path, isComposable) {}
+
+        /// <summary>
+        /// Initialize a new TrackInfoSingle object.
+        /// </summary>
+        public TrackInfoSingle(global::Microsoft.OData.Client.DataServiceQuerySingle<TrackInfo> query)
+            : base(query) {}
+
+    }
+    /// <summary>
+    /// There are no comments for TrackInfo in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::Microsoft.OData.Client.Key("Id")]
+    [global::Microsoft.OData.Client.OriginalNameAttribute("TrackInfo")]
+    public partial class TrackInfo : global::Microsoft.OData.Client.BaseEntityType, global::System.ComponentModel.INotifyPropertyChanged
+    {
+        /// <summary>
+        /// Create a new TrackInfo object.
+        /// </summary>
+        /// <param name="ID">Initial value of Id.</param>
+        /// <param name="raceId">Initial value of RaceId.</param>
+        /// <param name="trackWeather">Initial value of TrackWeather.</param>
+        /// <param name="trackState">Initial value of TrackState.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        public static TrackInfo CreateTrackInfo(int ID, int raceId, global::RaceStrategyApp.Models.Weather trackWeather, global::RaceStrategyApp.Models.TrackState trackState)
+        {
+            TrackInfo trackInfo = new TrackInfo();
+            trackInfo.Id = ID;
+            trackInfo.RaceId = raceId;
+            trackInfo.TrackWeather = trackWeather;
+            trackInfo.TrackState = trackState;
+            return trackInfo;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("Id")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "Id is required.")]
+        public virtual int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this._Id = value;
+                this.OnIdChanged();
+                this.OnPropertyChanged("Id");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _Id;
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property RaceId in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("RaceId")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "RaceId is required.")]
+        public virtual int RaceId
+        {
+            get
+            {
+                return this._RaceId;
+            }
+            set
+            {
+                this.OnRaceIdChanging(value);
+                this._RaceId = value;
+                this.OnRaceIdChanged();
+                this.OnPropertyChanged("RaceId");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private int _RaceId;
+        partial void OnRaceIdChanging(int value);
+        partial void OnRaceIdChanged();
+        /// <summary>
+        /// There are no comments for Property TrackWeather in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("TrackWeather")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "TrackWeather is required.")]
+        public virtual global::RaceStrategyApp.Models.Weather TrackWeather
+        {
+            get
+            {
+                return this._TrackWeather;
+            }
+            set
+            {
+                this.OnTrackWeatherChanging(value);
+                this._TrackWeather = value;
+                this.OnTrackWeatherChanged();
+                this.OnPropertyChanged("TrackWeather");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.Models.Weather _TrackWeather;
+        partial void OnTrackWeatherChanging(global::RaceStrategyApp.Models.Weather value);
+        partial void OnTrackWeatherChanged();
+        /// <summary>
+        /// There are no comments for Property TrackState in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        [global::Microsoft.OData.Client.OriginalNameAttribute("TrackState")]
+        [global::System.ComponentModel.DataAnnotations.RequiredAttribute(ErrorMessage = "TrackState is required.")]
+        public virtual global::RaceStrategyApp.Models.TrackState TrackState
+        {
+            get
+            {
+                return this._TrackState;
+            }
+            set
+            {
+                this.OnTrackStateChanging(value);
+                this._TrackState = value;
+                this.OnTrackStateChanged();
+                this.OnPropertyChanged("TrackState");
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        private global::RaceStrategyApp.Models.TrackState _TrackState;
+        partial void OnTrackStateChanging(global::RaceStrategyApp.Models.TrackState value);
+        partial void OnTrackStateChanged();
+        /// <summary>
+        /// This event is raised when the value of the property is changed
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// The value of the property is changed
+        /// </summary>
+        /// <param name="property">property name</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "#VersionNumber#")]
+        protected virtual void OnPropertyChanged(string property)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new global::System.ComponentModel.PropertyChangedEventArgs(property));
+            }
+        }
+    }
+    /// <summary>
     /// There are no comments for RaceSnapshotSingle in the schema.
     /// </summary>
     [global::Microsoft.OData.Client.OriginalNameAttribute("RaceSnapshotSingle")]
@@ -1121,23 +1454,6 @@ namespace RaceStrategyApp.ODataClient
         Wet = 7
     }
     /// <summary>
-    /// There are no comments for TrackState in the schema.
-    /// </summary>
-    [global::Microsoft.OData.Client.OriginalNameAttribute("TrackState")]
-    public enum TrackState
-    {
-        [global::Microsoft.OData.Client.OriginalNameAttribute("green")]
-        Green = 0,
-        [global::Microsoft.OData.Client.OriginalNameAttribute("FCY")]
-        FCY = 1,
-        [global::Microsoft.OData.Client.OriginalNameAttribute("SC")]
-        SC = 2,
-        [global::Microsoft.OData.Client.OriginalNameAttribute("localYellow")]
-        LocalYellow = 3,
-        [global::Microsoft.OData.Client.OriginalNameAttribute("red")]
-        Red = 4
-    }
-    /// <summary>
     /// There are no comments for Weather in the schema.
     /// </summary>
     [global::Microsoft.OData.Client.OriginalNameAttribute("Weather")]
@@ -1153,6 +1469,23 @@ namespace RaceStrategyApp.ODataClient
         Wet = 3,
         [global::Microsoft.OData.Client.OriginalNameAttribute("heavyWet")]
         HeavyWet = 4
+    }
+    /// <summary>
+    /// There are no comments for TrackState in the schema.
+    /// </summary>
+    [global::Microsoft.OData.Client.OriginalNameAttribute("TrackState")]
+    public enum TrackState
+    {
+        [global::Microsoft.OData.Client.OriginalNameAttribute("green")]
+        Green = 0,
+        [global::Microsoft.OData.Client.OriginalNameAttribute("FCY")]
+        FCY = 1,
+        [global::Microsoft.OData.Client.OriginalNameAttribute("SC")]
+        SC = 2,
+        [global::Microsoft.OData.Client.OriginalNameAttribute("localYellow")]
+        LocalYellow = 3,
+        [global::Microsoft.OData.Client.OriginalNameAttribute("red")]
+        Red = 4
     }
     /// <summary>
     /// Class containing all extension methods
@@ -1227,6 +1560,52 @@ namespace RaceStrategyApp.ODataClient
                 { "Id", id }
             };
             return new global::RaceStrategyApp.ODataClient.RaceProgressSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
+        }
+        /// <summary>
+        /// Get an entity of type global::RaceStrategyApp.Models.PitStop as global::RaceStrategyApp.Models.PitStopSingle specified by key from an entity set
+        /// </summary>
+        /// <param name="_source">source entity set</param>
+        /// <param name="_keys">dictionary with the names and values of keys</param>
+        public static global::RaceStrategyApp.ODataClient.PitStopSingle ByKey(this global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.PitStop> _source, global::System.Collections.Generic.IDictionary<string, object> _keys)
+        {
+            return new global::RaceStrategyApp.ODataClient.PitStopSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
+        }
+        /// <summary>
+        /// Get an entity of type global::RaceStrategyApp.Models.PitStop as global::RaceStrategyApp.Models.PitStopSingle specified by key from an entity set
+        /// </summary>
+        /// <param name="_source">source entity set</param>
+        /// <param name="id">The value of id</param>
+        public static global::RaceStrategyApp.ODataClient.PitStopSingle ByKey(this global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.PitStop> _source,
+            int id)
+        {
+            global::System.Collections.Generic.IDictionary<string, object> _keys = new global::System.Collections.Generic.Dictionary<string, object>
+            {
+                { "Id", id }
+            };
+            return new global::RaceStrategyApp.ODataClient.PitStopSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
+        }
+        /// <summary>
+        /// Get an entity of type global::RaceStrategyApp.Models.TrackInfo as global::RaceStrategyApp.Models.TrackInfoSingle specified by key from an entity set
+        /// </summary>
+        /// <param name="_source">source entity set</param>
+        /// <param name="_keys">dictionary with the names and values of keys</param>
+        public static global::RaceStrategyApp.ODataClient.TrackInfoSingle ByKey(this global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.TrackInfo> _source, global::System.Collections.Generic.IDictionary<string, object> _keys)
+        {
+            return new global::RaceStrategyApp.ODataClient.TrackInfoSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
+        }
+        /// <summary>
+        /// Get an entity of type global::RaceStrategyApp.Models.TrackInfo as global::RaceStrategyApp.Models.TrackInfoSingle specified by key from an entity set
+        /// </summary>
+        /// <param name="_source">source entity set</param>
+        /// <param name="id">The value of id</param>
+        public static global::RaceStrategyApp.ODataClient.TrackInfoSingle ByKey(this global::Microsoft.OData.Client.DataServiceQuery<global::RaceStrategyApp.Models.TrackInfo> _source,
+            int id)
+        {
+            global::System.Collections.Generic.IDictionary<string, object> _keys = new global::System.Collections.Generic.Dictionary<string, object>
+            {
+                { "Id", id }
+            };
+            return new global::RaceStrategyApp.ODataClient.TrackInfoSingle(_source.Context, _source.GetKeyPath(global::Microsoft.OData.Client.Serializer.GetKeyString(_source.Context, _keys)));
         }
         /// <summary>
         /// Get an entity of type global::RaceStrategyApp.Models.RaceSnapshot as global::RaceStrategyApp.Models.RaceSnapshotSingle specified by key from an entity set

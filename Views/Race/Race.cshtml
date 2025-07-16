@@ -19,28 +19,28 @@
                             <tr><th>Názov</th><td>@Model.Name</td></tr>
                             <tr><th>Pozícia</th><td>@Model.Position</td></tr>
                             <tr><th>Aktuálne kolo</th><td>@Model.LapCount</td></tr>
-                            <tr><th>Aktuálna zmes pneumatík</th><td>@Model.CurrentTyre</td></tr>
-                            <tr><th>Počet zastávok</th><td>@Model.NumberOfStops</td></tr>
-                            @if (Model.Refueling)
+                            <tr><th>Aktuálna zmes pneumatík</th><td>@Model.PitStop.CurrentTyre</td></tr>
+                            <tr><th>Počet zastávok</th><td>@Model.PitStop.NumberOfStops</td></tr>
+                            @if (Model.PitStop.Refueling)
                             {
-                                <tr><th>Kolo posledného natankovania</th><td>@Model.LastRefuelLap</td></tr>
+                                <tr><th>Kolo posledného natankovania</th><td>@Model.PitStop.LastRefuelLap</td></tr>
                             }
                             <tr>
                                 <th>Sady pneumatík</th>
                                 <td>
-                                    @foreach (var tyre in Model.SelectedTyres) {
+                                    @foreach (var tyre in Model.PitStop.SelectedTyres) {
                                         <span class="tyre-badge">@tyre</span>
                                     }
                                 </td>
                             </tr>
-                            <tr><th>Stav trate</th><td>@Model.TrackState</td></tr>
-                            <tr><th>Počasie</th><td>@Model.TrackWeather</td></tr>
+                            <tr><th>Stav trate</th><td>@Model.TrackInfo.TrackState</td></tr>
+                            <tr><th>Počasie</th><td>@Model.TrackInfo.TrackWeather</td></tr>
                             <tr><th>Poškodenie</th><td>@(Model.Damage ? "Áno" : "Nie")</td></tr>
                             <tr><th>Totálne poškodenie</th><td>@(Model.TerminalDamage ? "Áno" : "Nie")</td></tr>
                             <tr><th>Protivníci</th><td>@Model.AmountOfOpponents</td></tr>
-                            <tr><th>Povinné zastávky</th><td>@Model.MandatoryStops</td></tr>
+                            <tr><th>Povinné zastávky</th><td>@Model.PitStop.MandatoryStops</td></tr>
                             <tr><th>Počet kôl</th><td>@Model.NumberOfLaps</td></tr>
-                            <tr><th>Tankovanie</th><td>@(Model.Refueling ? "Áno" : "Nie")</td></tr>
+                            <tr><th>Tankovanie</th><td>@(Model.PitStop.Refueling ? "Áno" : "Nie")</td></tr>
                         </tbody>
                     </table>
                     @if (raceStarted)
@@ -82,7 +82,7 @@
                             <input type="hidden" name="id" value="@Model.Id" />
                             <div class="d-flex align-items-center">
                                 <div class="control-value me-3">@Model.LapCount</div>
-                                @if (possibleLapCount && Model.TrackState != TrackState.red)
+                                @if (possibleLapCount && Model.TrackInfo.TrackState != TrackState.red)
                                 {
                                     <button type="submit" name="increase" 
                                             class="btn btn-primary btn-race">
@@ -124,7 +124,7 @@
                             <div class="d-flex flex-wrap align-items-center">
                                 <div class="mb-2 me-2 flex-grow-1">
                                     @Html.DropDownListFor(
-                                        model => model.TrackWeather,
+                                        model => model.TrackInfo.TrackWeather,
                                         (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList,
                                         new { @class = "form-select" })
                                 </div>
@@ -146,7 +146,7 @@
                             <div class="d-flex flex-wrap align-items-center">
                                 <div class="mb-2 me-2 flex-grow-1">
                                     @Html.DropDownListFor(
-                                        model => model.TrackState,
+                                        model => model.TrackInfo.TrackState,
                                         (IEnumerable<SelectListItem>)ViewBag.TrackStateList,
                                         new { @class = "form-select" })
                                 </div>
@@ -175,7 +175,7 @@
                                 </select>
                             </div>
 
-                            @if (Model.Refueling) {
+                            @if (Model.PitStop.Refueling) {
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" name="refueling" id="refuelCheck" value="true">
                                     <input type="hidden" name="refueling" value="false">

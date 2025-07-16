@@ -62,18 +62,18 @@
                         <td>@race.Name</td>
                         <td>@race.NumberOfLaps</td>
                         <td>@race.LapCount</td>
-                        <td>@race.MandatoryStops</td>
-                        <td>@race.NumberOfStops</td>
-                        <td>@(race.Refueling ? "Áno" : "Nie")</td>
+                        <td>@race.PitStop.MandatoryStops</td>
+                        <td>@race.PitStop.NumberOfStops</td>
+                        <td>@(race.PitStop.Refueling ? "Áno" : "Nie")</td>
                         <td>@race.Position</td>
                         <td>@race.AmountOfOpponents</td>
                         <td>
-                            @foreach (var tyre in race.SelectedTyres) {
+                            @foreach (var tyre in race.PitStop.SelectedTyres) {
                                 <span class="tyre-badge">@tyre</span>
                             }
                         </td>
-                        <td>@race.TrackState</td>
-                        <td>@race.TrackWeather</td>
+                        <td>@race.TrackInfo.TrackState</td>
+                        <td>@race.TrackInfo.TrackWeather</td>
                         <td>@(race.Damage ? "Áno" : "Nie")</td>
                         <td>@(race.TerminalDamage ? "Áno" : "Nie")</td>
                     </tr>

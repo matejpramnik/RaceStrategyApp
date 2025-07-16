@@ -5,14 +5,20 @@ namespace RaceStrategyApp.Controllers {
     public class RaceSeriesController : BaseController {
 
         public async virtual Task<IActionResult> All() {
-            var rs = await Cont.RaceSeries.ExecuteAsync();
-            List<RaceSeries> retval = new List<RaceSeries>();
+            try {
+                var rs = await Cont.RaceSeries.ExecuteAsync();
+                List<RaceSeries> retval = new List<RaceSeries>();
 
-            foreach (var ras in rs) {
-                retval.Add(ras);
+                foreach (var ras in rs) {
+                    retval.Add(ras);
+                }
+
+                return View(retval);
             }
-
-            return View(retval);
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+                return View();
+            }
         }
 
         public IActionResult NewRaceSeries() {

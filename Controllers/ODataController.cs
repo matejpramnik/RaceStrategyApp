@@ -29,6 +29,9 @@ namespace RaceStrategyApp.Controllers {
 
         [HttpPost]
         public IActionResult Post([FromBody] Models.Race race) {
+            Ctx.PitStop.Add(race.PitStop);
+            Ctx.TrackInfo.Add(race.TrackInfo);
+            Ctx.SaveChanges();
             Ctx.Races.Add(race);
             Ctx.SaveChanges();
 

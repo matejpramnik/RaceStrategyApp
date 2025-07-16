@@ -36,16 +36,16 @@
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label asp-for="MandatoryStops" class="form-label fw-bold">Povinné zastávky</label>
-                                    <input asp-for="MandatoryStops" class="form-control" placeholder="Počet povinných zastávok" />
+                                    <label asp-for="PitStop.MandatoryStops" class="form-label fw-bold">Povinné zastávky</label>
+                                    <input asp-for="PitStop.MandatoryStops" class="form-control" placeholder="Počet povinných zastávok" />
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label asp-for="TrackWeather" class="form-label fw-bold">Počasie</label>
+                                    <label asp-for="TrackInfo.TrackWeather" class="form-label fw-bold">Počasie</label>
                                     @Html.DropDownListFor(
-                                             model => model.TrackWeather,
+                                             model => model.TrackInfo.TrackWeather,
                                              (IEnumerable<SelectListItem>)ViewBag.TrackWeatherList,
                                              "--Zvoliť počasie--",
                                              new { @class = "form-select" })
@@ -65,7 +65,7 @@
 
                             <div class="col-12">
                                 <div class="form-check form-switch mb-3">
-                                    <input asp-for="Refueling" class="form-check-input" role="switch" id="refuelSwitch">
+                                    <input asp-for="PitStop.Refueling" class="form-check-input" role="switch" id="refuelSwitch">
                                     <label class="form-check-label fw-bold" for="refuelSwitch">Tankovanie</label>
                                 </div>
                             </div>
@@ -77,14 +77,14 @@
                             </h4>
 
                             <div id="tyresContainer">
-                                @for (int i = 0; i < Model.SelectedTyres.Count; i++) {
+                                @for (int i = 0; i < Model.PitStop.SelectedTyres.Count; i++) {
                                     <div class="form-group row mb-3 align-items-center" data-index="@i">
                                         <div class="col-sm-8 col-9">
                                             <label class="form-label">Sada @(i + 1)</label>
-                                            <select asp-for="SelectedTyres[i]" class="form-select tyre-dropdown">
+                                            <select asp-for="PitStop.SelectedTyres[i]" class="form-select tyre-dropdown">
                                                 <option value="">Zvoliť zmes pneumatík</option>
                                                 @foreach (var compound in Enum.GetValues(typeof(TyreCompound))) {
-                                                    <option value="@compound" selected="@(Model.SelectedTyres[i] == (TyreCompound)compound)">
+                                                    <option value="@compound" selected="@(Model.PitStop.SelectedTyres[i] == (TyreCompound)compound)">
                                                         @compound
                                                     </option>
                                                 }
@@ -112,9 +112,9 @@
                         <input type="hidden" asp-for="Id" />
                         <input type="hidden" asp-for="Damage" />
                         <input type="hidden" asp-for="TerminalDamage" />
-                        <input type="hidden" asp-for="TrackState" />
+                        <input type="hidden" asp-for="TrackInfo.TrackState" />
                         <input type="hidden" asp-for="LapCount" />
-                        <input type="hidden" asp-for="NumberOfStops" />
+                        <input type="hidden" asp-for="PitStop.NumberOfStops" />
                         <input type="hidden" asp-for="AmountOfOpponents" />
 
                         <div class="text-center mt-4">
@@ -141,8 +141,8 @@
                 const dropdownHtml = `
                     <div class="form-group row mb-3 align-items-center" data-index="${index}">
                         <div class="col-sm-8 col-9">
-                            <label class="form-label">Sada #${index + 1}</label>
-                            <select name="SelectedTyres[${index}]" class="form-select tyre-dropdown">
+                            <label class="form-label">Sada ${index + 1}</label>
+                            <select name="PitStop.SelectedTyres[${index}]" class="form-select tyre-dropdown">
                                 <option value="">--Zvoliť zmes pneumatík--</option>
         @foreach (var compound in Enum.GetValues(typeof(TyreCompound))) {
                         <option value="@compound">@compound</option>
@@ -167,7 +167,7 @@
                 $('.form-group.row.mb-3').each(function(idx) {
                     $(this).attr('data-index', idx);
                     $(this).find('.remove-tyre').attr('data-index', idx);
-                    $(this).find('.form-label').text('Sada #' + (idx + 1));
+                    $(this).find('.form-label').text('Sada ' + (idx + 1));
                 });
             });
         });
